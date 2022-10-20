@@ -3,22 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+// Manage the state of game inside Game scene
 public class GameManager : MonoBehaviour
 {
-    public static GameManager gameManager;
-    public int score = 0;
+    public static GameManager instance;     // for singleton access
+
+    // variables
+    public static int score = 0;
 
     // reference
     public TMP_Text scoreText;
-    public Spawner1 spawner;
 
-    //----------------------Functions-----------------------
-
+    //----------------------Start and Update-----------------------
     void Awake() {
-        if (gameManager == null) gameManager = this;
+        // singleton: 1 object at a time contain this code
+        if (instance == null) instance = this;
+        else Destroy(this.gameObject);
     }
 
     void Update() {
+        // update score text
         if (scoreText != null) scoreText.text = "score: " + score;
+    }
+
+    //----------------------Functions-----------------------
+    ///<summary>Trigger the end of the game</summary>
+    public static void EndGame() {
+        // use stopping time for now
+        Time.timeScale = 0;
     }
 }

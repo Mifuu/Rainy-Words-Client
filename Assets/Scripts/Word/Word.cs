@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/*
+    Falling word component
+*/
 [RequireComponent(typeof(TMP_Text))]
 public class Word : MonoBehaviour
 {
-    public static List<Word> words = new List<Word> ();
-    static string[] dict;
-    static int count = 0;
+    public static List<Word> words = new List<Word> ();     // tracking all word component that currently exists
+    static string[] dict;                                   // store all possible word
+    static int count = 0;                                   // (should be in, need to change)
     public enum Type {Random, Sequence}
     public static Type type = Type.Random;
     public static char[] delimiterChars = {'\n', ' '};
@@ -100,7 +103,7 @@ public class Word : MonoBehaviour
             if (w.text.Equals(word)) {
                 w.Remove();
                 count++;
-                GameManager.gameManager.score++;
+                GameManager.score++;
             }
         }
 
