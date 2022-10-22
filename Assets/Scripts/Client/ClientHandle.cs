@@ -13,4 +13,13 @@ public class ClientHandle : MonoBehaviour
         Client.instance.myId = _myId;
         ClientSend.WelcomeReceived();
     }
+
+    public static void ForwardToPlayer(Packet _packet)
+    {
+        string _msg = _packet.ReadString();
+        int _myId = _packet.ReadInt();
+        
+        Client.instance.myId = _myId;
+        ClientSend.WelcomeReceived();
+    }
 }

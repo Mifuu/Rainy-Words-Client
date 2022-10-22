@@ -52,5 +52,6 @@
         "temp/":true,
         "Temp/":true
     },
-    "csharp.referencesCodeLens.enabled": false
+    "csharp.referencesCodeLens.enabled": true,
+    "omnisharp.useModernNet": false
 }
