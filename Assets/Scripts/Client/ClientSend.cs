@@ -10,16 +10,19 @@ public class ClientSend : MonoBehaviour
         Client.instance.tcp.SendData(_packet);
     }
 
-    #region Packets
-    public static void WelcomeReceived()
+    public static void SendString(string msg)
     {
         using (Packet _packet = new Packet((int)ClientPackets.welcomeReceived))
         {
-            _packet.Write(Client.instance.myId);
-            _packet.Write(UIManager.instance.usernameField.text);
+            //_packet.Write(Client.instance.myId);
+            _packet.Write(msg);
 
             SendTCPData(_packet);
         }
     }
-    #endregion
+
+    public static void WelcomeReceived()
+    {
+        SendString(UIManager.instance.usernameField.text);
+    }
 }
