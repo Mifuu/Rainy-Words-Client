@@ -17,22 +17,28 @@ public class InputProcess : MonoBehaviour
     }
 
     void Update() {
+        // if press [Enter]
         if (Input.GetKeyDown(KeyCode.Return)) {
+            // process word in the input field
             ProcessWord(inputField.text);
+            // reset input field
             inputField.text = "";
+            // reactivate input field incase it deactivate itself after [Enter]
             inputField.ActivateInputField();
         }
     }
 
     //----------------------Processing Entered Word-----------------------
+    // on every [Enter]
     void ProcessWord(string word) {
         Debug.Log(inputField.text);
-        Word.CheckWord(word);
+        WordManager.CheckWord(word);
     }
 
     //----------------------Events-----------------------
+    // on every key input changed in input field
     public void OnType() {
-        Word.CheckTyping(inputField.text, Color.red);
+        WordManager.CheckTyping(inputField.text, Color.red);
     }
 
     public void OnDeselect() {

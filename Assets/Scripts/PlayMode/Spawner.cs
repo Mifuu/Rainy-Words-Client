@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner1 : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     public bool isOn = true;
     public Vector2 spawnSize;
     public GameObject spawnObject;
-    public float baseInterval = 2;
+    public float baseInterval = 1;
     public AnimationCurve intervalFactorCurve;
 
     //----------------------Functions-----------------------
@@ -22,26 +22,15 @@ public class Spawner1 : MonoBehaviour
         pos.x += Random.value * spawnSize.x;
         pos.y += Random.value * spawnSize.y;
 
-        Instantiate(spawnObject, pos, Quaternion.identity);
-    }
-    void SpawnObject1() {
-        Instantiate(spawnObject, transform.position, Quaternion.identity);
+        GameObject i = Instantiate(spawnObject, pos, Quaternion.identity);
+
+        // TODO: check if offline or online
+        i.GetComponent<Word>().SetText(WordList.GetRandomWord("wordlist10000"));
     }
 
     IEnumerator SpawnCR() {
-        if (!isOn || spawnObject == null) yield break;
-
-        while (Time.time < 5) {
+        while (isOn && spawnObject != null) {
             yield return new WaitForSeconds(baseInterval);
-            SpawnObject();
-        }
-
-        yield return new WaitForSeconds(0.2f);
-        Word.type = Word.Type.Sequence;
-        Word.SetDict("wordlistrick");
-
-        while (true) {
-            yield return new WaitForSeconds(baseInterval * 0.75f);
             SpawnObject();
         }
         

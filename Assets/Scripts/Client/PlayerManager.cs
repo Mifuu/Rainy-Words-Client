@@ -11,42 +11,41 @@ public class PlayerManager : MonoBehaviour
         ReceivedMsgInfo msgObj = ReceivedMsgInfo.FromJSON(jsonMsg);
 
         // if catchMsg is set, then it means that json parsing fail
-        if (msgObj.catchMsg != "") {
+        if (!msgObj.catchMsg.Equals("")) {
             // simply debug message
             Debug.Log("Server: " + msgObj.catchMsg);
         } else {    // json parsing success
-            if (msgObj.newWord != "") {             // if newWord field exist
-                // TODO: check if in play mode/scene
-                // TODO: spawn new word
-            }
-            if (msgObj.p1Score != int.MinValue) {   // if p1Score field exist
-                // TODO: check if in play mode/scene
-                // TODO: update score
-            }
-            if (msgObj.p2Score != int.MinValue) {   // if p2Score field exist
-                // TODO: check if in play mode/scene
-                // TODO: update score
-            }
-            if (msgObj.removeWord != "") {          // if removeWord field exist
-                // TODO: check if in play mode/scene
-                // TODO: update score
-            }
+            Debug.Log("test: " + JsonUtility.ToJson(msgObj));
         }
     }
+/*
+{
+    "ClientID":0,
+    "PlayerReady":1
+}
 
+{
+    "ClientID":0,
+    "PlayerType":"word"
+}
+
+{
+    "ClientID":0,
+    "WordExpire":"word"
+}
+*/
     
 
     // class for representing received msg from server
     // test string for server: {"newWord":"1word","p1Score":1,"p2Score":10,"removeWord":"3word"}
+    // {"Player":{"Player1":{"ID":1,"Point":0},"Player2":{"ID":2,"Point":0}}}
     public class ReceivedMsgInfo
     {
-        public string newWord;
-        public int p1Score = int.MinValue;  //use int.MinValue as the representation of no value
-        public int p2Score = int.MinValue;
-        public string removeWord;
+        public Dictionary<string, PlayerReceivedMsgInfo> Player = new Dictionary<string, PlayerReceivedMsgInfo> ();
         
-        public string catchMsg; // case there's an error in parsing to json, it is not a json format
+        public string catchMsg = ""; // case there's an error in parsing to json, it is not a json format
 
+        // create ReceiveMsgInfo from JSON
         public static ReceivedMsgInfo FromJSON(string jsonString)
         {
             try {   // try parsing JSON, if success return obj that represent that JSON
@@ -62,6 +61,12 @@ public class PlayerManager : MonoBehaviour
                 return n;
             }
         }
+    }
+
+    public class PlayerReceivedMsgInfo
+    {
+        int ID;
+        int Point;
     }
 
     // class for sending json info to server

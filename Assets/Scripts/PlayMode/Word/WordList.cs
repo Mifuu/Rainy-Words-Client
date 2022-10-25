@@ -24,12 +24,8 @@ public class WordList
         return list[rand];
     }
 
-    /// <summary> get random word from a specefic group </summary>
-    public static string GetWord(string listname, int index) {
-        return "";
-    }
-
-    public static void AddList(string filename, string listname) {
+    /// <summary> add new list of word </summary>
+    public static void AddListResource(string filename, string listname) {
         // https://forum.unity.com/threads/get-a-random-word-from-the-dictionary.383833/
         TextAsset textAsset = (TextAsset)Resources.Load(filename);
         string[] newList = textAsset.text.Split(delimiterChars);

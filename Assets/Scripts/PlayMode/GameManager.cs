@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
         // singleton: 1 object at a time contain this code
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
+
+        // add wordlist
+        WordList.AddListResource("wordlist10000", "wordlist10000");
     }
 
     void Update() {
