@@ -127,7 +127,14 @@ public class Client : MonoBehaviour
         }
 
         private bool HandleData(byte[] _data)
-        {
+        {   
+            string output = "";
+            foreach (Byte b in _data) {
+                output += " " + Convert.ToString(b, 2).PadLeft(8, '0');
+            }
+            Debug.Log(output);
+
+            /*
             int _packetLength = 0;
 
             receivedData.SetBytes(_data);
@@ -140,8 +147,10 @@ public class Client : MonoBehaviour
                     return true;
                 }
             }
-
-            while (_packetLength > 0 && _packetLength <= receivedData.UnreadLength())
+            */
+            // while (_packetLength > 0 && _packetLength <= receivedData.UnreadLength())
+            /*
+            while (_packetLength <= receivedData.UnreadLength())
             {
                 byte[] _packetBytes = receivedData.ReadBytes(_packetLength);
                 ThreadManager.ExecuteOnMainThread(() =>
@@ -170,6 +179,17 @@ public class Client : MonoBehaviour
             }
 
             return false;
+            */
+            byte[] _packetBytes = _data;
+            ThreadManager.ExecuteOnMainThread(() =>
+            {
+                using (Packet _packet = new Packet(_packetBytes))
+                {
+                    int _packetId = 1;
+                    packetHandlers[_packetId](_packet);
+                }
+            });
+            return true;
         }
 
         private void Disconnect() 

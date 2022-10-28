@@ -314,6 +314,7 @@ public class Packet : IDisposable
     {
         try
         {
+            /*
             int _length = ReadInt(); // Get the length of the string
             string _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length); // Convert the bytes to a string
             if (_moveReadPos && _value.Length > 0)
@@ -322,6 +323,8 @@ public class Packet : IDisposable
                 readPos += _length; // Increase readPos by the length of the string
             }
             return _value; // Return the string
+            */
+            return Encoding.ASCII.GetString(readableBuffer); // Convert the bytes to a string
         }
         catch
         {

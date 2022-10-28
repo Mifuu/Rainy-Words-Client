@@ -9,11 +9,12 @@ using Newtonsoft.Json;
 
 public class PlayerManager
 {
-    public static string id = "";   // contain ip address of player for verifying some packets
-
     // handle received json and runs function accordingly
     public static void Handle(string jsonMsg) 
     {
+        // remove "\"
+        jsonMsg = jsonMsg.Replace("\\", "");
+
         // convert json msg to obj for data retrieval
         ReceivedMsgInfo msgObj = ReceivedMsgInfo.FromJSON(jsonMsg);
 
@@ -21,18 +22,43 @@ public class PlayerManager
         if (!msgObj.catchMsg.Equals("")) {  
             // if catchMsg is not empty, then parsing fail
             // simply debug message and return
-            Debug.Log("Parse failed: Server msg: " + msgObj.catchMsg);
+            Debug.Log("PlayerManager: Parse failed: Server msg: " + msgObj.catchMsg);
             return;
         }
 
-        // parse success
-        Debug.Log("Parse success");
-
         // determine what data is received
         if (msgObj.Player.Length > 0) {
-            Debug.Log("dshbdshdskc");
+            // Receive player info
+            Debug.Log("PlayerManager: Receive player info");
+            //
+
+            // just checking
+            string output = "";
+            foreach (PlayerReceivedMsgInfo i in msgObj.Player) {
+                output += $"ID:{i.ID} Point:{i.Point}   ";
+            }
+            Debug.Log(output);
         }
-        Debug.Log(msgObj.WordRemoved);
+        if (msgObj.Words.Length > 0) {
+            // Receive new word list
+            Debug.Log("PlayerManager: Receive new word list");
+            //
+
+            // just checking
+            string output = "";
+            foreach (string i in msgObj.Words) {
+                output += $"{i},";
+            }
+            Debug.Log(output);
+        }
+        if (!msgObj.WordRemoved.Equals("")) {
+            // Receive order to remove word
+            Debug.Log("PlayerManager: Remove Word");
+            //
+
+            // just checking
+            Debug.Log($"--{msgObj.WordRemoved}--");
+        }
     }
 
     void Update() {
@@ -60,8 +86,8 @@ public class PlayerManager
 
     // class for representing received msg from server
     // test string for server: {"newWord":"1word","p1Score":1,"p2Score":10,"removeWord":"3word"}
-    // {"Player":{"Player1":{"ID":1,"Point":0},"Player2":{"ID":2,"Point":0}}}
     // {"Words":["James", "annoyed", "with", "Ball"]}
+    // {"Player":[{"ID":1,"Point":0},{"ID":2,"Point":0}]}{"Words":["James", "annoyed", "with", "Ball"]}
     public class ReceivedMsgInfo
     {
         public PlayerReceivedMsgInfo[] Player = {};
@@ -87,18 +113,6 @@ public class PlayerManager
     {
         public int ID;
         public int Point;
-    }
-
-    // class for sending json info to server
-    public class SendMsgInfo
-    {
-        string typeWord;
-        string wordExpire;
-
-        public string ToJSON()
-        {
-            return JsonUtility.ToJson(this);
-        }
     }
 
     // get self ip address
