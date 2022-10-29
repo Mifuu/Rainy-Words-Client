@@ -34,8 +34,8 @@ public class PlayerManager
 
             // just checking
             string output = "";
-            foreach (PlayerReceivedMsgInfo i in msgObj.Player) {
-                output += $"ID:{i.ID} Point:{i.Point}   ";
+            for (int i = 0; i < msgObj.Player.Length; i++) {
+                output += $"id# = {i+1}, point = {msgObj.Player[i]}   ";
             }
             Debug.Log(output);
         }
@@ -90,7 +90,7 @@ public class PlayerManager
     // {"Player":[{"ID":1,"Point":0},{"ID":2,"Point":0}]}{"Words":["James", "annoyed", "with", "Ball"]}
     public class ReceivedMsgInfo
     {
-        public PlayerReceivedMsgInfo[] Player = {};
+        public int[] Player = {};
         public string[] Words = {};
         public string WordRemoved = "";
         public string catchMsg = ""; // case there's an error in parsing to json, it is not a json format
@@ -115,6 +115,7 @@ public class PlayerManager
         public int Point;
     }
 
+
     // get self ip address
     public string GetLocalIPAddress()
     {
@@ -127,5 +128,14 @@ public class PlayerManager
             }
         }
         throw new System.Exception("No network adapters with an IPv4 address in the system!");
+    }
+
+    // debugging
+    public static string ByteArrayToBinary(byte[] _data) {
+        string output = "";
+        foreach (Byte b in _data) {
+            output += " " + Convert.ToString(b, 2).PadLeft(8, '0');
+        }
+        return output;
     }
 }

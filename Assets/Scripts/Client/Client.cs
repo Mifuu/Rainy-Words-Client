@@ -93,6 +93,7 @@ public class Client : MonoBehaviour
                 if (socket != null)
                 {
                     stream.BeginWrite(_packet.ToArray(), 0, _packet.Length(), null, null);
+                    Debug.Log("send: " + PlayerManager.ByteArrayToBinary(_packet.ToArray()));
                 }
             }
             catch (Exception _ex)
@@ -128,11 +129,7 @@ public class Client : MonoBehaviour
 
         private bool HandleData(byte[] _data)
         {   
-            string output = "";
-            foreach (Byte b in _data) {
-                output += " " + Convert.ToString(b, 2).PadLeft(8, '0');
-            }
-            Debug.Log(output);
+            Debug.Log("received: " + PlayerManager.ByteArrayToBinary(_data));
 
             /*
             int _packetLength = 0;

@@ -8,14 +8,13 @@ public class Spawner : MonoBehaviour
     public Vector2 spawnSize;
     public GameObject spawnObject;
     public float baseInterval = 1;
-    public AnimationCurve intervalFactorCurve;
 
     //----------------------Functions-----------------------
     void Start() {
         StartCoroutine(SpawnCR());
     }
 
-    void SpawnObject() {
+    void SpawnRandomObject() {
         Vector2 pos = new Vector2();
         pos.x = transform.position.x - spawnSize.x / 2;
         pos.y = transform.position.y - spawnSize.y / 2;
@@ -31,7 +30,7 @@ public class Spawner : MonoBehaviour
     IEnumerator SpawnCR() {
         while (isOn && spawnObject != null) {
             yield return new WaitForSeconds(baseInterval);
-            SpawnObject();
+            SpawnRandomObject();
         }
         
     }
