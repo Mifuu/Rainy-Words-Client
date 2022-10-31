@@ -24,7 +24,7 @@ public class InputProcess : MonoBehaviour
             // reset input field
             inputField.text = "";
             // reactivate input field incase it deactivate itself after [Enter]
-            inputField.ActivateInputField();
+            // inputField.ActivateInputField();
         }
     }
 
@@ -43,6 +43,6 @@ public class InputProcess : MonoBehaviour
 
     public void OnDeselect() {
         // SO it can never really be deselect/unactivated
-        inputField.ActivateInputField();
+        // inputField.ActivateInputField();
     }
 }

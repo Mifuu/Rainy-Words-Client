@@ -14,6 +14,8 @@ public class PlayerManager
     {
         // remove "\"
         jsonMsg = jsonMsg.Replace("\\", "");
+        // jsonMsg = jsonMsg.Substring(8,(jsonMsg.Length-8));
+        // jsonMsg += "$$";
 
         // convert json msg to obj for data retrieval
         ReceivedMsgInfo msgObj = ReceivedMsgInfo.FromJSON(jsonMsg);
@@ -42,7 +44,14 @@ public class PlayerManager
         if (msgObj.Words.Length > 0) {
             // Receive new word list
             Debug.Log("PlayerManager: Receive new word list");
-            //
+
+            // check is the Spawner instance is not null
+            if(Spawner.instance != null) {
+                // put the words into queue
+                foreach (string i in msgObj.Words){                
+                    Spawner.wordQueue.Enqueue(i);
+                }
+            }
 
             // just checking
             string output = "";
@@ -98,6 +107,7 @@ public class PlayerManager
         // create ReceiveMsgInfo from JSON
         public static ReceivedMsgInfo FromJSON(string jsonString)
         {
+            // JsonConvert.DeserializeObject<ReceivedMsgInfo>(jsonString);
             try {   // try parsing JSON, if success return obj that represent that JSON
                 return JsonConvert.DeserializeObject<ReceivedMsgInfo>(jsonString);
                 //return JsonUtility.FromJson<ReceivedMsgInfo>(jsonString);

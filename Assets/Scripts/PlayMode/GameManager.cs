@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
-        Spawner.instance.StartSinglePlayerSpawnerCR();
+        // Spawner.instance.StartSinglePlayerSpawnerCR();
+        Spawner.instance.StartMultiPlayerSpawnerCR();
     }
 
     void Update() {
