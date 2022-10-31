@@ -16,12 +16,16 @@ public class GameManager : MonoBehaviour
 
     //----------------------Start and Update-----------------------
     void Awake() {
-        // singleton: 1 object at a time contain this code
+        // singleton: 1 object at a time contain this component
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
 
-        // add wordlist
+        // add single player wordlist
         WordList.AddListResource("wordlist10000", "wordlist10000");
+    }
+
+    void Start() {
+        Spawner.instance.StartSinglePlayerSpawnerCR();
     }
 
     void Update() {

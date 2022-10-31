@@ -97,7 +97,7 @@ public class TestNetworkDiscovery : MonoBehaviour
                      }
                     catch (SocketException ex)
                     { 
-                        //TODO: if you want, do smth here
+                        //if you want, do smth here
                         Console.WriteLine("\tDIDN'T work at " + ipCandidate);
                     }
                 }

@@ -109,7 +109,7 @@ public class Client : MonoBehaviour
                 int _byteLength = stream.EndRead(_result);
                 if (_byteLength <= 0)
                 {
-                    // TODO: disconnect
+                    // disconnect
                     instance.Disconnect();
                     return;
                 }
@@ -122,7 +122,7 @@ public class Client : MonoBehaviour
             }
             catch
             {
-                // TODO: disconnect
+                // disconnect
                 Disconnect();
             }
         }
