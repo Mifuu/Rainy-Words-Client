@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 // Manage the state of game inside Game scene
@@ -10,9 +11,13 @@ public class GameManager : MonoBehaviour
 
     // variables
     public static int score = 0;
+    public static int p1Score = 0;
+    public static int p2Score = 0;
 
     // reference
     public TMP_Text scoreText;
+    public TMP_Text scoreText1;
+    public TMP_Text scoreText2;
 
     //----------------------Start and Update-----------------------
     void Awake() {
@@ -31,10 +36,19 @@ public class GameManager : MonoBehaviour
 
     void Update() {
         // update score text
-        if (scoreText != null) scoreText.text = "score: " + score;
+        // if (scoreText != null) scoreText.text = "score: " + score;
+
+        // update player1 and player2 scores
+        if (scoreText1 != null) scoreText1.text = "player1: " + p1Score.ToString();
+        if (scoreText2 != null) scoreText2.text = "player2: " + p2Score.ToString();
     }
 
     //----------------------Functions-----------------------
+    public static void updateScores(int p1, int p2) {
+        p1Score = p1;
+        p2Score = p2;
+    }
+
     ///<summary>Trigger the end of the game</summary>
     public static void EndGame() {
         // use stopping time for now

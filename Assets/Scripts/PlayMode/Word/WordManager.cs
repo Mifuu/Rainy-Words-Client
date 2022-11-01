@@ -42,7 +42,7 @@ public class WordManager : MonoBehaviour
 
         foreach (Word w in words) {
             if (w.text.Equals(word)) {
-                if(!removeMatchingWord) w.Remove();
+                if(removeMatchingWord) w.Remove();
                 count++;
                 // GameManager.score++;
             }
