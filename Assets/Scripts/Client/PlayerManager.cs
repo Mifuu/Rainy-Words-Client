@@ -63,8 +63,11 @@ public class PlayerManager
         if (!msgObj.WordRemoved.Equals("")) {
             // Receive order to remove word
             Debug.Log("PlayerManager: Remove Word");
-            //
-
+            // call funciton to remove the word
+            if(WordManager.instance != null) {
+                WordManager.CheckWord(msgObj.WordRemoved, true);
+                // Debug.Log($"--{msgObj.WordRemoved}--");
+            }
             // just checking
             Debug.Log($"--{msgObj.WordRemoved}--");
         }
@@ -72,6 +75,13 @@ public class PlayerManager
 
     void Update() {
         Debug.Log(GetLocalIPAddress());
+    }
+
+    // sending what the player typed to the server
+    public static void deliverMsg(string key, string word) {
+        string s = "{\""+ key + "\":\"" + word + "\"}";
+        // ClientSend.SendString(s);
+        Debug.Log(s);
     }
 /*
 {

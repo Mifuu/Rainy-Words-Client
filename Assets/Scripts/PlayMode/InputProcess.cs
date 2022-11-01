@@ -32,7 +32,10 @@ public class InputProcess : MonoBehaviour
     // on every [Enter]
     void ProcessWord(string word) {
         Debug.Log(inputField.text);
-        WordManager.CheckWord(word);
+
+        // calling deliverMsg to send message in JSON format when the typed word matches
+        if(WordManager.CheckWord(word, true)) PlayerManager.deliverMsg("playerType", word);
+
     }
 
     //----------------------Events-----------------------
