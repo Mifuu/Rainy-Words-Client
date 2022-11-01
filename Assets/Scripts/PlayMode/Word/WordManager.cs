@@ -28,21 +28,23 @@ public class WordManager : MonoBehaviour
             if (w.transform.position.y > lowerBound.position.y) continue;
 
             // if any word go passed the lowerbound, remove that word and end the game
-            Debug.Log("TODO: tell PlayerManager to send \"WordExpire\" to server");
+            PlayerManager.deliverMsg("wordExpire", w.text);
+
+            // Debug.Log("TODO: end the game");
             break;
         }
     }
 
     //----------------------Check-----------------------
     // after [Enter] check if any word exactly matches
-    public static bool CheckWord(string word) {
+    public static bool CheckWord(string word, bool removeMatchingWord) {
         int count = 0;
 
         foreach (Word w in words) {
             if (w.text.Equals(word)) {
-                w.Remove();
+                if(removeMatchingWord) w.Remove();
                 count++;
-                GameManager.score++;
+                // GameManager.score++;
             }
         }
 

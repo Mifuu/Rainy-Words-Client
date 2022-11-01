@@ -32,7 +32,10 @@ public class PlayerManager
         if (msgObj.Player.Length > 0) {
             // Receive player info
             Debug.Log("PlayerManager: Receive player info");
-            //
+            // extract the scores of players and udpate them in GameManager
+            int score1 = msgObj.Player[0];
+            int score2 = msgObj.Player[1];
+            GameManager.updateScores(score1, score2);
 
             // just checking
             string output = "";
@@ -45,7 +48,7 @@ public class PlayerManager
             // Receive new word list
             Debug.Log("PlayerManager: Receive new word list");
 
-            // check is the Spawner instance is not null
+            // check if the Spawner instance is not null
             if(Spawner.instance != null) {
                 // put the words into queue
                 foreach (string i in msgObj.Words){                
@@ -63,8 +66,11 @@ public class PlayerManager
         if (!msgObj.WordRemoved.Equals("")) {
             // Receive order to remove word
             Debug.Log("PlayerManager: Remove Word");
-            //
-
+            // call funciton to remove the word
+            if(WordManager.instance != null) {
+                WordManager.CheckWord(msgObj.WordRemoved, true);
+                // Debug.Log($"--{msgObj.WordRemoved}--");
+            }
             // just checking
             Debug.Log($"--{msgObj.WordRemoved}--");
         }
@@ -72,6 +78,13 @@ public class PlayerManager
 
     void Update() {
         Debug.Log(GetLocalIPAddress());
+    }
+
+    // sending what the player typed to the server
+    public static void deliverMsg(string key, string word) {
+        string s = "{\""+ key + "\":\"" + word + "\"}";
+        // ClientSend.SendString(s);
+        Debug.Log(s);
     }
 /*
 {
