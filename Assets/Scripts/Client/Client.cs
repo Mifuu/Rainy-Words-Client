@@ -93,7 +93,7 @@ public class Client : MonoBehaviour
                 if (socket != null)
                 {
                     stream.BeginWrite(_packet.ToArray(), 0, _packet.Length(), null, null);
-                    Debug.Log("send: " + ConnectionManager.ByteArrayToBinary(_packet.ToArray()));
+                    // Debug.Log("send: " + ConnectionManager.ByteArrayToBinary(_packet.ToArray()));
                 }
             }
             catch (Exception _ex)
@@ -103,7 +103,7 @@ public class Client : MonoBehaviour
         }
 
         private void ReceiveCallback(IAsyncResult _result)
-        {
+        { 
             try
             {
                 int _byteLength = stream.EndRead(_result);
@@ -129,7 +129,7 @@ public class Client : MonoBehaviour
 
         private bool HandleData(byte[] _data)
         {   
-            Debug.Log("received: " + ConnectionManager.ByteArrayToBinary(_data));
+            // Debug.Log("received: " + ConnectionManager.ByteArrayToBinary(_data));
 
             /*
             int _packetLength = 0;
@@ -189,7 +189,7 @@ public class Client : MonoBehaviour
             return true;
         }
 
-        private void Disconnect() 
+        public void Disconnect() 
         {
             instance.Disconnect();
 
@@ -217,6 +217,9 @@ public class Client : MonoBehaviour
             tcp.socket.Close();
 
             Debug.Log("Disconnected from server.");
+
+            // use for connection debug menu
+            if (ConnectionUIManager.instance != null) ConnectionUIManager.instance.OnDisconnectFromServer();
         }
     }
 }
