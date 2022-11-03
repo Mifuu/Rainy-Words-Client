@@ -28,7 +28,7 @@ public class WordManager : MonoBehaviour
             if (w.transform.position.y > lowerBound.position.y) continue;
 
             // if any word go passed the lowerbound, remove that word and end the game
-            PlayerManager.deliverMsg("wordExpire", w.text);
+            ConnectionManager.deliverMsg("wordExpire", w.text);
 
             // Debug.Log("TODO: end the game");
             break;

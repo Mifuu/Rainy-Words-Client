@@ -8,7 +8,7 @@ public class ClientHandle : MonoBehaviour
     {
         string _msg = _packet.ReadString();
         
-        PlayerManager.Handle(_msg);
+        ConnectionManager.Handle(_msg);
     }
 
     public static void Welcome(Packet _packet)

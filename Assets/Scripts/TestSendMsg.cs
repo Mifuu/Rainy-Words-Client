@@ -19,6 +19,6 @@ public class TestSendMsg : MonoBehaviour
     }
 
     public void SubmitParseTest() {
-        PlayerManager.Handle(inputField2.text);
+        ConnectionManager.Handle(inputField2.text);
     }
 }
