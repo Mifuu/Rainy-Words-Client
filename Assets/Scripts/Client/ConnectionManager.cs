@@ -7,7 +7,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using Newtonsoft.Json;
 
-public class PlayerManager
+public class ConnectionManager
 {
     // handle received json and runs function accordingly
     public static void Handle(string jsonMsg) 
@@ -24,14 +24,14 @@ public class PlayerManager
         if (!msgObj.catchMsg.Equals("")) {  
             // if catchMsg is not empty, then parsing fail
             // simply debug message and return
-            Debug.Log("PlayerManager: Parse failed: Server msg: " + msgObj.catchMsg);
+            Debug.Log("ConnectionManager: Parse failed: Server msg: " + msgObj.catchMsg);
             return;
         }
 
         // determine what data is received
         if (msgObj.Player.Length > 0) {
             // Receive player info
-            Debug.Log("PlayerManager: Receive player info");
+            Debug.Log("ConnectionManager: Receive player info");
             // extract the scores of players and udpate them in GameManager
             int score1 = msgObj.Player[0];
             int score2 = msgObj.Player[1];
@@ -46,7 +46,7 @@ public class PlayerManager
         }
         if (msgObj.Words.Length > 0) {
             // Receive new word list
-            Debug.Log("PlayerManager: Receive new word list");
+            Debug.Log("ConnectionManager: Receive new word list");
 
             // check if the Spawner instance is not null
             if(Spawner.instance != null) {
@@ -65,7 +65,7 @@ public class PlayerManager
         }
         if (!msgObj.WordRemoved.Equals("")) {
             // Receive order to remove word
-            Debug.Log("PlayerManager: Remove Word");
+            Debug.Log("ConnectionManager: Remove Word");
             // call funciton to remove the word
             if(WordManager.instance != null) {
                 WordManager.CheckWord(msgObj.WordRemoved, true);

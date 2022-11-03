@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class ConnectionUIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static ConnectionUIManager instance;
 
     public GameObject startMenu;
     public TMP_InputField usernameField;

@@ -22,6 +22,6 @@ public class ClientSend : MonoBehaviour
 
     public static void WelcomeReceived()
     {
-        SendString(UIManager.instance.usernameField.text);
+        SendString(ConnectionUIManager.instance.usernameField.text);
     }
 }
