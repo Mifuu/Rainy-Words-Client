@@ -31,22 +31,21 @@ public class ConnectionManager
         // determine what data is received
         if (msgObj.Player.Length > 0) {
             // Receive player info
-            Debug.Log("ConnectionManager: Receive player info");
+            
             // extract the scores of players and udpate them in GameManager
             int score1 = msgObj.Player[0];
             int score2 = msgObj.Player[1];
             GameManager.updateScores(score1, score2);
 
-            // just checking
-            string output = "";
+            // console log
+            string s = "ConnectionManager: Receive player info: ";
             for (int i = 0; i < msgObj.Player.Length; i++) {
-                output += $"id# = {i+1}, point = {msgObj.Player[i]}   ";
+                s += $"id# = {i}, point = {msgObj.Player[i]}   ";
             }
-            Debug.Log(output);
+            Debug.Log(s);
         }
         if (msgObj.Words.Length > 0) {
             // Receive new word list
-            Debug.Log("ConnectionManager: Receive new word list");
 
             // check if the Spawner instance is not null
             if(Spawner.instance != null) {
@@ -56,23 +55,26 @@ public class ConnectionManager
                 }
             }
 
-            // just checking
-            string output = "";
+            // console log
+            string s = "ConnectionManager: Receive new word list: ";
             foreach (string i in msgObj.Words) {
-                output += $"{i},";
+                s += $"{i},";
             }
-            Debug.Log(output);
+            Debug.Log(s);
         }
         if (!msgObj.WordRemoved.Equals("")) {
             // Receive order to remove word
-            Debug.Log("ConnectionManager: Remove Word");
+            
             // call funciton to remove the word
             if(WordManager.instance != null) {
                 WordManager.CheckWord(msgObj.WordRemoved, true);
                 // Debug.Log($"--{msgObj.WordRemoved}--");
             }
-            // just checking
-            Debug.Log($"--{msgObj.WordRemoved}--");
+
+            // console log
+            string s = "ConnectionManager: Remove Word: ";
+            s += $"--{msgObj.WordRemoved}--";
+            Debug.Log(s);
         }
     }
 
@@ -82,9 +84,13 @@ public class ConnectionManager
 
     // sending what the player typed to the server
     public static void deliverMsg(string key, string word) {
-        string s = "{\""+ key + "\":\"" + word + "\"}";
-        // ClientSend.SendString(s);
-        Debug.Log(s);
+        string s = "{";
+        if (Client.instance != null) {
+            s += "{\"ID\"=" + Client.instance.myId + ",";
+        }
+        s += "\""+ key + "\":\"" + word + "\"}";
+        ClientSend.SendString(s);
+        // Debug.Log(s);
     }
 /*
 {
@@ -94,7 +100,7 @@ public class ConnectionManager
 
 {
     "ClientID":0,
-    "PlayerType":"word"
+    "PlayerTyped":"word"
 }
 
 {

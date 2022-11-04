@@ -29,6 +29,7 @@ public class WordManager : MonoBehaviour
 
             // if any word go passed the lowerbound, remove that word and end the game
             ConnectionManager.deliverMsg("wordExpire", w.text);
+            w.Remove();
 
             // Debug.Log("TODO: end the game");
             break;
