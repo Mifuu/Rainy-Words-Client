@@ -108,7 +108,7 @@ public class PlayerManager
 
     // class for representing received msg from server
     // test string for server: {"newWord":"1word","p1Score":1,"p2Score":10,"removeWord":"3word"}
-    // {"Words":["James", "annoyed", "with", "Ball"]}
+    // {"words":["James", "annoyed", "with", "Ball"]}
     // {"Player":[{"ID":1,"Point":0},{"ID":2,"Point":0}]}{"Words":["James", "annoyed", "with", "Ball"]}
     public class ReceivedMsgInfo
     {
