@@ -8,9 +8,15 @@ public class PanelManager : MonoBehaviour
     public static PanelManager instance;
 
     public Panel[] panels;
-    Stack<Panel> panelStack = new Stack<Panel> ();
+    public Stack<Panel> panelStack = new Stack<Panel> ();
+
+    [Header("Transition")]
+    public bool doTransition = true;
+    public GameObject transitionPanel;
+    public Animator transitionAnimator;
 
     // for FancyButton
+    [Header("For FancyButton")]
     public int frameSincePanelUpdated = 0;
 
     // --------------Starts----------------
@@ -27,7 +33,7 @@ public class PanelManager : MonoBehaviour
     }
 
     void Update() {
-        frameSincePanelUpdated++;;
+        frameSincePanelUpdated++;
     }
 
     // --------------Publics----------------
@@ -164,15 +170,48 @@ public class PanelManager : MonoBehaviour
 
     ///<summary>Change panel</summary>
     void SetPanel(Panel prev, Panel next) {
+        // forward to coroutine
+        StartCoroutine(SetPanelCR(prev, next));
+    }
+
+    IEnumerator SetPanelCR(Panel prev, Panel next) {
         // bring obj to the front
         next.obj.transform.SetAsLastSibling();
+
+        // transition IN
+        transitionPanel.transform.SetAsLastSibling();
+        if (transitionPanel != null && doTransition) {
+            switch (next.transition) {
+                case Panel.Transition.FadeDrop:
+                    transitionAnimator.SetTrigger("DropFadeIn");
+                    break;
+                case Panel.Transition.None:
+                    break;
+            }
+            yield return new WaitForSecondsRealtime(0.35f);
+        }
         
         // activate next and disable? prev panel
+        yield return new WaitForSecondsRealtime(0.3f);
         if (next.disablePrevPanel) prev.obj.SetActive(false);
         next.obj.SetActive(true);
-
         // reset frame
         frameSincePanelUpdated = 0;
+
+        // transition OUT
+        if (transitionPanel != null && doTransition) {
+            switch (next.transition) {
+                case Panel.Transition.FadeDrop:
+                    transitionAnimator.SetTrigger("DropFadeOut");
+                    break;
+                case Panel.Transition.None:
+                    break;
+            }
+            yield return new WaitForSecondsRealtime(0.35f);
+        }
+
+        // bring obj to the front
+        next.obj.transform.SetAsLastSibling();
     }
 
     [System.Serializable]
@@ -183,5 +222,8 @@ public class PanelManager : MonoBehaviour
         public bool disablePrevPanel = true;
         [Tooltip("If false, will not appear in Previous(...). Useful for loading panel")]
         public bool canBePrevious = true;
+
+        public enum Transition{None, FadeDrop}
+        public Transition transition = Transition.None;
     }
 }

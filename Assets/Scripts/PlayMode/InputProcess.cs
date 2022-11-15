@@ -40,7 +40,7 @@ public class InputProcess : MonoBehaviour
         // Debug.Log(inputField.text);
 
         // calling deliverMsg to send message in JSON format when the typed word matches
-        if(WordManager.CheckWord(word, true)) ConnectionManager.deliverMsg("playerTyped", word);
+        if(WordManager.CheckWord(word, true)) ConnectionManager.DeliverMsg("playerTyped", word);
 
     }
 
