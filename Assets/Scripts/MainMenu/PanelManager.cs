@@ -179,39 +179,62 @@ public class PanelManager : MonoBehaviour
         next.obj.transform.SetAsLastSibling();
 
         // transition IN
-        transitionPanel.transform.SetAsLastSibling();
+        Panel.Transition transition = GetTransition(prev, next);
         if (transitionPanel != null && doTransition) {
-            switch (next.transition) {
+            switch (transition) {
                 case Panel.Transition.FadeDrop:
+                    // put transition panel in front and activate
+                    transitionPanel.transform.SetAsLastSibling();
                     transitionAnimator.SetTrigger("DropFadeIn");
+                    yield return new WaitForSecondsRealtime(0.35f);
                     break;
                 case Panel.Transition.None:
                     break;
             }
-            yield return new WaitForSecondsRealtime(0.35f);
         }
         
         // activate next and disable? prev panel
-        yield return new WaitForSecondsRealtime(0.3f);
         if (next.disablePrevPanel) prev.obj.SetActive(false);
         next.obj.SetActive(true);
         // reset frame
         frameSincePanelUpdated = 0;
+        yield return new WaitForSecondsRealtime(0.3f);
 
         // transition OUT
         if (transitionPanel != null && doTransition) {
-            switch (next.transition) {
+            switch (transition) {
                 case Panel.Transition.FadeDrop:
                     transitionAnimator.SetTrigger("DropFadeOut");
+                    yield return new WaitForSecondsRealtime(0.35f);
                     break;
                 case Panel.Transition.None:
                     break;
             }
-            yield return new WaitForSecondsRealtime(0.35f);
         }
 
         // bring obj to the front
         next.obj.transform.SetAsLastSibling();
+    }
+
+    /// <summary>get proper transition from prev to next panel</summary>
+    Panel.Transition GetTransition(Panel prev, Panel next) {
+        // set default
+        Panel.Transition t = prev.transitionToOther;
+
+        // check override
+        foreach (Panel.TTOOverride o in prev.ttoOverrides) {
+            // get next panel in TTOOverride
+            Panel targetPanel = GetPanel(o.nextPanelName);
+            if (targetPanel == null) continue;
+            if (targetPanel == next) {
+                // if target panel == next, set new t and break to finish up
+                t = o.transition;
+                break;
+            }
+        }
+
+        // return t
+        return t;
     }
 
     [System.Serializable]
@@ -224,6 +247,16 @@ public class PanelManager : MonoBehaviour
         public bool canBePrevious = true;
 
         public enum Transition{None, FadeDrop}
-        public Transition transition = Transition.None;
+        [Header("Transition")]
+        public Transition transitionToOther = Transition.None;
+        public TTOOverride[] ttoOverrides = {};
+        
+
+        [System.Serializable]
+        public struct TTOOverride {
+            // add this to override default transitionToOther in specific scene
+            public string nextPanelName;
+            public Transition transition;
+        }
     }
 }
