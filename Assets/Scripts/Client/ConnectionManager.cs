@@ -9,6 +9,13 @@ using Newtonsoft.Json;
 
 public class ConnectionManager
 {
+    // handle Client trying to send first message, will be possible if in menu and name input is filled
+    public static void MenuSendFirstMessage() {
+        if (MainMenu.instance != null) {
+            MainMenu.instance.SendFirstConnectionMessage();
+        }
+    }
+
     // handle received json and runs function accordingly
     public static void Handle(string jsonMsg) 
     {
@@ -16,6 +23,7 @@ public class ConnectionManager
         jsonMsg = jsonMsg.Replace("\\", "");
         // jsonMsg = jsonMsg.Substring(8,(jsonMsg.Length-8));
         // jsonMsg += "$$";
+        Debug.Log(jsonMsg);
 
         // convert json msg to obj for data retrieval
         ReceivedMsgInfo msgObj = ReceivedMsgInfo.FromJSON(jsonMsg);
@@ -29,61 +37,84 @@ public class ConnectionManager
         }
 
         // determine what data is received
-        if (msgObj.Player.Length > 0) {
+        if (msgObj.player.Length > 0) {
             // Receive player info
-            
-            // extract the scores of players and udpate them in GameManager
-            int score1 = msgObj.Player[0];
-            int score2 = msgObj.Player[1];
-            GameManager.updateScores(score1, score2);
-
-            // console log
+            // Debug log
             string s = "ConnectionManager: Receive player info: ";
-            for (int i = 0; i < msgObj.Player.Length; i++) {
-                s += $"id# = {i}, point = {msgObj.Player[i]}   ";
+            for (int i = 0; i < msgObj.player.Length; i++) {
+                s += $"id# = {i}, point = {msgObj.player[i]}   ";
             }
             Debug.Log(s);
+            
+            // extract the scores of players and udpate them in GameManager
+            int score1 = msgObj.player[0];
+            int score2 = msgObj.player[1];
+            GameManager.updateScores(score1, score2);
         }
-        if (msgObj.Words.Length > 0) {
+        if (msgObj.words.Length > 0) {
             // Receive new word list
+            // Debug log
+            string s = "ConnectionManager: Receive new word list: ";
+            foreach (string i in msgObj.words) {
+                s += $"{i},";
+            }
+            Debug.Log(s);
 
             // check if the Spawner instance is not null
             if(Spawner.instance != null) {
                 // put the words into queue
-                foreach (string i in msgObj.Words){                
+                foreach (string i in msgObj.words){                
                     Spawner.wordQueue.Enqueue(i);
                 }
             }
-
-            // console log
-            string s = "ConnectionManager: Receive new word list: ";
-            foreach (string i in msgObj.Words) {
-                s += $"{i},";
-            }
-            Debug.Log(s);
         }
-        if (!msgObj.WordRemoved.Equals("")) {
+        if (!msgObj.wordRemoved.Equals("")) {
             // Receive order to remove word
+            // Debug log
+            string s = "ConnectionManager: Remove Word: ";
+            s += $"--{msgObj.wordRemoved}--";
+            Debug.Log(s);
             
             // call funciton to remove the word
             if(WordManager.instance != null) {
-                WordManager.CheckWord(msgObj.WordRemoved, true);
+                WordManager.CheckWord(msgObj.wordRemoved, true);
                 // Debug.Log($"--{msgObj.WordRemoved}--");
             }
-
-            // console log
-            string s = "ConnectionManager: Remove Word: ";
-            s += $"--{msgObj.WordRemoved}--";
+        }
+        if (msgObj.playerList.Length > 0) {
+            // Received player list
+            // Debug log
+            string s = "ConnectionManager: Receive Player List: ";
+            foreach (PlayerListItemReceived p in msgObj.playerList) {
+                s += $"(id:{p.id},name:{p.name},isBusy:{p.isBusy}),";
+            }
             Debug.Log(s);
+
+
+            /* TAN_TODO:  
+                1. convert data
+                2. call function to update player list
+            */
+        }
+        if (msgObj.scoreList.Length > 0) {
+            // Received player list
+            // Debug log
+            string s = "ConnectionManager: Receive Score List: ";
+            foreach (ScoreReceived c in msgObj.scoreList) {
+                s += $"(id:{c.id},name:{c.name},score:{c.score}),";
+            }
+            Debug.Log(s);
+
+
+            /* TAN_TODO:  
+                1. convert data
+                2. call function to update player score
+            */
         }
     }
 
-    void Update() {
-        Debug.Log(GetLocalIPAddress());
-    }
-
     // sending what the player typed to the server
-    public static void deliverMsg(string key, string word) {
+    public static void DeliverMsg(string key, string word) {
         string s = "{";
         if (Client.instance != null) {
             s += "{\"ID\"=" + Client.instance.myId + ",";
@@ -107,20 +138,20 @@ public class ConnectionManager
     "ClientID":0,
     "WordExpire":"word"
 }
-
-{"Player":{"Player1":{"ID":1,"Point":0},"Player2":{"ID":2,"Point":0}}}
 */
     
 
     // class for representing received msg from server
     // test string for server: {"newWord":"1word","p1Score":1,"p2Score":10,"removeWord":"3word"}
-    // {"words":["James", "annoyed", "with", "Ball"]}
+    // {"Words":["James", "annoyed", "with", "Ball"]}
     // {"Player":[{"ID":1,"Point":0},{"ID":2,"Point":0}]}{"Words":["James", "annoyed", "with", "Ball"]}
     public class ReceivedMsgInfo
     {
-        public int[] Player = {};
-        public string[] Words = {};
-        public string WordRemoved = "";
+        public int[] player = {};
+        public string[] words = {};
+        public string wordRemoved = "";
+        public PlayerListItemReceived[] playerList = {};
+        public ScoreReceived[] scoreList = {};
         public string catchMsg = ""; // case there's an error in parsing to json, it is not a json format
 
         // create ReceiveMsgInfo from JSON
@@ -130,7 +161,7 @@ public class ConnectionManager
             try {   // try parsing JSON, if success return obj that represent that JSON
                 return JsonConvert.DeserializeObject<ReceivedMsgInfo>(jsonString);
                 //return JsonUtility.FromJson<ReceivedMsgInfo>(jsonString);
-            } catch (Exception ex) {    // fail parsing JSON. Put whole msg to catchMsg and return obj
+            } catch (Exception e) {    // fail parsing JSON. Put whole msg to catchMsg and return obj
                 ReceivedMsgInfo n = new ReceivedMsgInfo();
                 n.catchMsg = jsonString;
                 return n;
@@ -138,10 +169,18 @@ public class ConnectionManager
         }
     }
 
-    public class PlayerReceivedMsgInfo
+    public class PlayerListItemReceived
     {
-        public int ID;
-        public int Point;
+        public int id;
+        public string name;
+        public bool isBusy;
+    }
+
+    public class ScoreReceived
+    {
+        public int id;
+        public string name;
+        public int score;
     }
 
 

@@ -15,7 +15,7 @@ public class ConnectionUIManager : MonoBehaviour
 
     [Header("Debug Connection Menu")]
     [SerializeField] private GameObject debugConnectionMenuPanel;
-    public bool isOn = false;
+    public bool isOn = false;       // if debug panel is on
     private bool isConnected = false;
 
     [Header("Debug Connection Field")]

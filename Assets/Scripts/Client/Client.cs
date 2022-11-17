@@ -67,11 +67,14 @@ public class Client : MonoBehaviour
             };
 
             receiveBuffer = new byte[dataBufferSize];
+            Debug.Log("Check 1");
             socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
+            Debug.Log("Check 1.1");
         }
 
         private void ConnectCallback(IAsyncResult _result)
         {
+            Debug.Log("Check 2");
             socket.EndConnect(_result);
 
             if (!socket.Connected)
@@ -83,7 +86,10 @@ public class Client : MonoBehaviour
 
             receivedData = new Packet();
 
+            Debug.Log("Check 2.1");
             stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
+            Debug.Log("Check 2.2");
+            ConnectionManager.MenuSendFirstMessage();
         }
 
         public void SendData(Packet _packet)
@@ -104,6 +110,7 @@ public class Client : MonoBehaviour
 
         private void ReceiveCallback(IAsyncResult _result)
         { 
+            Debug.Log("Check 3");
             try
             {
                 int _byteLength = stream.EndRead(_result);
@@ -118,7 +125,9 @@ public class Client : MonoBehaviour
                 Array.Copy(receiveBuffer, _data, _byteLength);
 
                 receivedData.Reset(HandleData(_data));
+                Debug.Log("Check 3.1");
                 stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
+                Debug.Log("Check 3.2");
             }
             catch
             {
