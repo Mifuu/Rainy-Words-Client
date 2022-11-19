@@ -141,10 +141,12 @@ public class ConnectionManager
 */
     
 
-    // class for representing received msg from server
-    // test string for server: {"newWord":"1word","p1Score":1,"p2Score":10,"removeWord":"3word"}
-    // {"Words":["James", "annoyed", "with", "Ball"]}
-    // {"Player":[{"ID":1,"Point":0},{"ID":2,"Point":0}]}{"Words":["James", "annoyed", "with", "Ball"]}
+    // NEW CONFIRMED RECEIVABLE
+    // {"player":[{"id":1,"point":0},{"id":2,"point":0}]}
+    // {"words":["I", "am", "so", "fuking", "sleepy"]}
+    // {"wordRemoved":"cancer"}
+    // {"playerList":[{"id":0,"name":"Alice","isBusy":false},{"id":1,"name":"Bob","isBusy":true},{"id":3,"name":"Trudy","isBusy":true}]}
+    // {"scoreList":[{"id":0,"name":"Alice","score":100},{"id":3,"name":"Trudy","score":99}]}
     public class ReceivedMsgInfo
     {
         public int[] player = {};
