@@ -31,7 +31,8 @@ public class Word : MonoBehaviour
     }
 
     public void Remove() {
-        StartCoroutine(RemoveCR());
+        Destroy(gameObject);
+        // StartCoroutine(RemoveCR());
     }
 
     IEnumerator RemoveCR() {
