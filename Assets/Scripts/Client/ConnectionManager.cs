@@ -141,9 +141,6 @@ public class ConnectionManager
 */
     
 
-    // old
-    // 
-
     // NEW CONFIRMED RECEIVABLE
     // {"player":[{"id":1,"point":0},{"id":2,"point":0}]}
     // {"words":["I", "am", "so", "fuking", "sleepy"]}
