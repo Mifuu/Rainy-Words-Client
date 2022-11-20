@@ -25,7 +25,7 @@ public class Spawner : MonoBehaviour
     }
 
     void Start() {
-        StartCoroutine(SinglePlayerSpawnerCR());
+        // StartCoroutine(SinglePlayerSpawnerCR());
     }
 
     public void StartSinglePlayerSpawnerCR() {

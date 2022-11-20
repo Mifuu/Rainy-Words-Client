@@ -21,7 +21,7 @@ public class ConnectionUIManager : MonoBehaviour
     [Header("Debug Connection Field")]
     [SerializeField] private TMP_InputField ipTMP;
     [SerializeField] private TMP_InputField portTMP;
-    [SerializeField] private TMP_InputField idTMP;
+    [SerializeField] public TMP_InputField idTMP;
     [SerializeField] private Button connectButton;
     [SerializeField] private Button disconnectButton;
 
@@ -47,10 +47,11 @@ public class ConnectionUIManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else if (instance != this)
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 
@@ -79,7 +80,7 @@ public class ConnectionUIManager : MonoBehaviour
 
         ipTMP.interactable = true;
         portTMP.interactable = true;
-        idTMP.interactable = true;
+        idTMP.interactable = false;
         connectButton.interactable = true;
         disconnectButton.interactable = true;
     }
@@ -102,12 +103,12 @@ public class ConnectionUIManager : MonoBehaviour
         try {
             string ip = ipTMP.text;
             int port = int.Parse(portTMP.text);
-            int id = int.Parse(portTMP.text);
+            // int id = int.Parse(portTMP.text);
             if (Client.instance != null) {
                 // if ip and port of this instance is not empty, override Client.cs
                 if (!ip.Equals("")) Client.instance.ip = ip;
                 if (port != 0) Client.instance.port = port;
-                if (id != 0) Client.instance.myId = id;
+                // if (id != 0) Client.instance.myId = id;
             }
         } catch (Exception e) {
             Debug.Log("Invalid value of ip or port");

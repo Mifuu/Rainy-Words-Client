@@ -6878,7 +6878,7 @@ RectTransform:
   - {fileID: 535038573}
   - {fileID: 439789735}
   m_Father: {fileID: 1629396514}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7345,7 +7345,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 10
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -7430,7 +7430,7 @@ RectTransform:
   - {fileID: 1794687164}
   - {fileID: 584129873}
   m_Father: {fileID: 1629396514}
-  m_RootOrder: 9
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8381,7 +8381,7 @@ RectTransform:
   - {fileID: 1627286242}
   - {fileID: 1412112932}
   m_Father: {fileID: 1629396514}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8424,7 +8424,7 @@ RectTransform:
   - {fileID: 254546715}
   - {fileID: 1431359636}
   m_Father: {fileID: 1629396514}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8577,14 +8577,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1629396515}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: Next
-        m_Mode: 5
+      - m_Target: {fileID: 1629396516}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ButtonChangeSceneSinglePlayer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: Main Menu Panel
           m_BoolArgument: 0
@@ -10444,10 +10444,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1629396515}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: Next
-        m_Mode: 5
+      - m_Target: {fileID: 1629396516}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ButtonChangeSceneSinglePlayer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11265,14 +11265,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1629396515}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: Next
-        m_Mode: 5
+      - m_Target: {fileID: 1629396516}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ButtonChangeSceneSinglePlayer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: Main Menu Panel
           m_BoolArgument: 0
@@ -11418,10 +11418,10 @@ RectTransform:
   - {fileID: 2059512186}
   - {fileID: 1347732308}
   - {fileID: 1234207454}
-  - {fileID: 1148558407}
   - {fileID: 1399700360}
   - {fileID: 1083028643}
   - {fileID: 1399602275}
+  - {fileID: 1148558407}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11511,7 +11511,7 @@ MonoBehaviour:
     ttoOverrides: []
   - name: Choose Level Panel
     obj: {fileID: 1399602272}
-    disablePrevPanel: 0
+    disablePrevPanel: 1
     canBePrevious: 1
     transitionToOther: 1
     ttoOverrides: []
@@ -13498,7 +13498,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 593987395}
   m_HandleRect: {fileID: 593987394}
   m_Direction: 0
-  m_Value: -0.0000039633155
+  m_Value: 0
   m_Size: 0.9884382
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -13671,7 +13671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1908050426654738266, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
       propertyPath: m_Name
-      value: Connection Manager Canvas
+      value: Game Manager Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 1908050426654738266, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
       propertyPath: m_IsActive

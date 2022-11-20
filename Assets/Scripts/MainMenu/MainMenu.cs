@@ -30,10 +30,10 @@ public class MainMenu : MonoBehaviour
         SpecificInputUpdate();
     }
 
-    public void SendFirstConnectionMessage() {
-        if (!nameInputField.text.Equals("")) {
-            ConnectionManager.DeliverMsg("newClient", nameInputField.text);
-        }
+    public string GetInputName() {
+        string output = "";
+        output += nameInputField.text.Equals("");
+        return output;
     }
 
     public void ButtonQuit() {
@@ -47,11 +47,21 @@ public class MainMenu : MonoBehaviour
         } else {
             // TODO: Set name and send info?
             nameText.text = nameInputField.text;
-            PanelManager.StaticNext("Welcome Panel");
+            if (ConnectionUIManager.instance != null) ConnectionUIManager.instance.ButtonConnect();
+            PanelManager.StaticNext("Waiting For Connection Panel");
+            GameManager.instance.WaitForConnectionToPlayerList();
+        }
+    }
+
+    public void ButtonChangeSceneSinglePlayer(int id) {
+        if (GameManager.instance != null) {
+            GameManager.instance.ChangeSceneSinglePlayer(id);
         }
     }
 
     // specific input per panel
+    float onlinePlayers_refreshPeriod = 3;
+    float onlinePlayers_timeTilRefresh = 0;
     void SpecificInputUpdate() {
         // check if PanelManager instance is null
         if (PanelManager.instance == null) return;
@@ -71,6 +81,18 @@ public class MainMenu : MonoBehaviour
                     PanelManager.StaticNext("Online Players Panel");
                 }
                 break;
+            case "Online Players Panel":
+                onlinePlayers_timeTilRefresh -= Time.deltaTime;
+                if (onlinePlayers_timeTilRefresh < 0) {
+                    onlinePlayers_timeTilRefresh = onlinePlayers_refreshPeriod;
+                    // send refresh msg
+                    ConnectionManager.DeliverMsg("requestPlayerList", "" + Client.instance.myId);
+                }
+                break;
         }
+    }
+
+    public void GoOnlinePlayerPanel() {
+        PanelManager.StaticNext("Online Players Panel");
     }
 }

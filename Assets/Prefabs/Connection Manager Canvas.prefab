@@ -4515,6 +4515,7 @@ GameObject:
   - component: {fileID: 1908050426654738267}
   - component: {fileID: 1908050426654738257}
   - component: {fileID: 1908050426654738256}
+  - component: {fileID: 7147682429384887336}
   m_Layer: 5
   m_Name: Connection Manager Canvas
   m_TagString: Untagged
@@ -4658,6 +4659,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805c2ae25012340059a54303e8434f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7147682429384887336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908050426654738266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2067511741dd145a6858e78fe96e9d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuSceneName: MainMenu1
+  playSceneName: GameTest
 --- !u!1 &1908050426680314387
 GameObject:
   m_ObjectHideFlags: 0

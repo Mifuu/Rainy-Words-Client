@@ -175,9 +175,6 @@ public class PanelManager : MonoBehaviour
     }
 
     IEnumerator SetPanelCR(Panel prev, Panel next) {
-        // bring obj to the front
-        next.obj.transform.SetAsLastSibling();
-
         // transition IN
         Panel.Transition transition = GetTransition(prev, next);
         if (transitionPanel != null && doTransition) {
@@ -186,7 +183,7 @@ public class PanelManager : MonoBehaviour
                     // put transition panel in front and activate
                     transitionPanel.transform.SetAsLastSibling();
                     transitionAnimator.SetTrigger("DropFadeIn");
-                    yield return new WaitForSecondsRealtime(0.35f);
+                    yield return new WaitForSecondsRealtime(0.5f);
                     break;
                 case Panel.Transition.None:
                     break;
@@ -196,9 +193,13 @@ public class PanelManager : MonoBehaviour
         // activate next and disable? prev panel
         if (next.disablePrevPanel) prev.obj.SetActive(false);
         next.obj.SetActive(true);
+        // bring obj to the front
+        next.obj.transform.SetAsLastSibling();
+        // put transition panel in front
+        transitionPanel.transform.SetAsLastSibling();
         // reset frame
         frameSincePanelUpdated = 0;
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return new WaitForSecondsRealtime(0.1f);
 
         // transition OUT
         if (transitionPanel != null && doTransition) {

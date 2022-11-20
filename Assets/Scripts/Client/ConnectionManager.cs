@@ -10,10 +10,15 @@ using Newtonsoft.Json;
 public class ConnectionManager
 {
     // handle Client trying to send first message, will be possible if in menu and name input is filled
-    public static void MenuSendFirstMessage() {
+    public static void SendFirstConnectionMessage() {
         if (MainMenu.instance != null) {
-            MainMenu.instance.SendFirstConnectionMessage();
-        }
+            string name = MainMenu.instance.GetInputName();
+            if (!name.Equals("")) {
+                DeliverMsg("newClient",name);
+            } else {
+                Debug.Log("ConnectionManager: ERROR input is empty!");
+            }
+        } else {Debug.Log("ConnectionManager: ERROR no MainMenu.instance is found!");}
     }
 
     // handle received json and runs function accordingly
@@ -23,7 +28,7 @@ public class ConnectionManager
         jsonMsg = jsonMsg.Replace("\\", "");
         // jsonMsg = jsonMsg.Substring(8,(jsonMsg.Length-8));
         // jsonMsg += "$$";
-        Debug.Log(jsonMsg);
+        Debug.Log("Received: " + jsonMsg);
 
         // convert json msg to obj for data retrieval
         ReceivedMsgInfo msgObj = ReceivedMsgInfo.FromJSON(jsonMsg);
@@ -90,14 +95,33 @@ public class ConnectionManager
             }
             Debug.Log(s);
 
+            // msg to list and update
+            List<(int id, string name, bool isBusy)> currentPlayers = new List<(int id, string name, bool isBusy)>();
+            foreach (PlayerListItemReceived p in msgObj.playerList) {
+                currentPlayers.Add((p.id, p.name, p.isBusy));
+            }
+            PlayerList.UpdateAllPlayerListItem(currentPlayers);
 
-            /* TAN_TODO:  
-                1. convert data
-                2. call function to update player list
-            */
+            // tell GameManager
+            if (GameManager.instance != null) GameManager.instance.ReceivedPlayerList();
+        }
+        if (msgObj.assignID != int.MaxValue) {
+            // Received assignID
+            // Debug log
+            Debug.Log("ConnectionManager: Receive AssignID: " + msgObj.assignID);
+
+            // set id
+            if (Client.instance != null) Client.instance.myId = msgObj.assignID;
+            else {Debug.Log("ConnectionManager: Can't find Client!");}
+
+            // tell GameManager
+            if (GameManager.instance != null) GameManager.instance.ReceivedAssignID();
+
+            // send back
+            DeliverMsg("requestPlayerList", "" + Client.instance.myId);
         }
         if (msgObj.scoreList.Length > 0) {
-            // Received player list
+            // Received score list
             // Debug log
             string s = "ConnectionManager: Receive Score List: ";
             foreach (ScoreReceived c in msgObj.scoreList) {
@@ -111,14 +135,38 @@ public class ConnectionManager
                 2. call function to update player score
             */
         }
+        if (msgObj.matchStart.Length > 0) {
+            // Received matchStart
+            // Debug log
+            string s = "ConnectionManager: Receive Match Start: ";
+            foreach (int i in msgObj.matchStart) {
+                s += i + ",";
+            }
+            Debug.Log(s);
+
+            // tell GameManager
+            if (GameManager.instance != null) GameManager.instance.ReceivedMatchStart(msgObj.matchStart);
+        }
+        if (msgObj.matchRequest.Length > 0) {
+            // Received matchRequest
+            // Debug log
+            string s = "ConnectionManager: Receive Match Request from: " + msgObj.matchRequest[0];
+            Debug.Log(s);
+
+            // tell PlayerList
+            PlayerList.GotMatchRequest(msgObj.matchRequest[0]);
+        }
+
     }
 
     // sending what the player typed to the server
     public static void DeliverMsg(string key, string word) {
         string s = "{";
+        /*
         if (Client.instance != null) {
             s += "{\"ID\"=" + Client.instance.myId + ",";
         }
+        */
         s += "\""+ key + "\":\"" + word + "\"}";
         ClientSend.SendString(s);
         // Debug.Log(s);
@@ -147,6 +195,7 @@ public class ConnectionManager
     // {"wordRemoved":"cancer"}
     // {"playerList":[{"id":0,"name":"Alice","isBusy":false},{"id":1,"name":"Bob","isBusy":true},{"id":3,"name":"Trudy","isBusy":true}]}
     // {"scoreList":[{"id":0,"name":"Alice","score":100},{"id":3,"name":"Trudy","score":99}]}
+    // {"assignID":123}
     public class ReceivedMsgInfo
     {
         public int[] player = {};
@@ -154,6 +203,9 @@ public class ConnectionManager
         public string wordRemoved = "";
         public PlayerListItemReceived[] playerList = {};
         public ScoreReceived[] scoreList = {};
+        public int assignID = int.MaxValue;
+        public int[] matchStart = {};
+        public int[] matchRequest = {};
         public string catchMsg = ""; // case there's an error in parsing to json, it is not a json format
 
         // create ReceiveMsgInfo from JSON

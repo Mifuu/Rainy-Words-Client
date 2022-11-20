@@ -46,7 +46,12 @@ public class PlayManager : MonoBehaviour
 
     void Start() {
         // Spawner.instance.StartSinglePlayerSpawnerCR();
-        Spawner.instance.StartMultiPlayerSpawnerCR();
+        // Spawner.instance.StartMultiPlayerSpawnerCR();
+    }
+
+    void Update() {
+        timer -= Time.deltaTime;
+        UpdateTimerText();
     }
     //----------------------Functions-----------------------
     public void SetupSingleplayer(float timer) {
@@ -62,6 +67,8 @@ public class PlayManager : MonoBehaviour
 
         UpdateNameText();
         UpdateScoreText();
+
+        Spawner.instance.StartSinglePlayerSpawnerCR();
     }
 
     public void SetupMultiplayer(string p1Name, string p2Name, float timer) {
@@ -77,6 +84,8 @@ public class PlayManager : MonoBehaviour
 
         UpdateNameText();
         UpdateScoreText();
+
+        Spawner.instance.StartMultiPlayerSpawnerCR();
     }
 
     public void UpdateNameText() {
@@ -90,7 +99,11 @@ public class PlayManager : MonoBehaviour
     }
 
     public void UpdateTimerText() {
-        timerText.text = "" + timer;
+        string min = "" + (int)(timer / 60);
+        string sec = "" + (int)(timer % 60);
+        if (min.Length < 2) min = "0" + min;
+        if (sec.Length < 2) sec = "0" + sec;
+        timerText.text = min + ":" + sec;
     }
 
     public void UpdateScores(int p1Score, int p2Score) {
@@ -104,5 +117,12 @@ public class PlayManager : MonoBehaviour
     public static void EndGame() {
         // use stopping time for now
         Time.timeScale = 0;
+    }
+
+    public static void AddSinglePlayerScore() {
+        if (instance == null) return;
+
+        instance.p1Score++;
+        instance.UpdateScoreText();
     }
 }

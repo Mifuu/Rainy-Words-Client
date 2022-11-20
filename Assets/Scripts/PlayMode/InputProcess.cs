@@ -39,8 +39,12 @@ public class InputProcess : MonoBehaviour
     void ProcessWord(string word) {
         // Debug.Log(inputField.text);
 
-        // calling deliverMsg to send message in JSON format when the typed word matches
-        if(WordManager.CheckWord(word, true)) ConnectionManager.DeliverMsg("playerTyped", word);
+        if (GameManager.nextSceneMode == GameManager.NextSceneMode.Multi) {
+            // calling deliverMsg to send message in JSON format when the typed word matches
+            if (WordManager.CheckWord(word, false)) ConnectionManager.DeliverMsg("playerTyped", word);
+        } else {
+            if (WordManager.CheckWord(word, true)) PlayManager.AddSinglePlayerScore();
+        }
 
     }
 

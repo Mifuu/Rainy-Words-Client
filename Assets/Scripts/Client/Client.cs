@@ -89,7 +89,9 @@ public class Client : MonoBehaviour
             Debug.Log("Check 2.1");
             stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
             Debug.Log("Check 2.2");
-            ConnectionManager.MenuSendFirstMessage();
+            ConnectionManager.SendFirstConnectionMessage();
+            if (GameManager.instance != null) GameManager.instance.SetIsConnected(true);
+            FindObjectOfType<ConnectionUIManager>().idTMP.text = "" + Client.instance.myId;
         }
 
         public void SendData(Packet _packet)
@@ -222,6 +224,7 @@ public class Client : MonoBehaviour
     {
         if (isConnected) 
         {
+            if (GameManager.instance != null) GameManager.instance.SetIsConnected(false);
             isConnected = false;
             tcp.socket.Close();
 
