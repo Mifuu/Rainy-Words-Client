@@ -49,7 +49,7 @@ public class ConnectionManager
             // extract the scores of players and udpate them in GameManager
             int score1 = msgObj.player[0];
             int score2 = msgObj.player[1];
-            GameManager.updateScores(score1, score2);
+            // GameManager.updateScores(score1, score2);
         }
         if (msgObj.words.Length > 0) {
             // Receive new word list

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1210e409bec574e63ab44d93a8c17544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: default
   velocityY: -0.275
   tmp: {fileID: 2312707371215985566}
 --- !u!1 &5198812244067306205
@@ -122,8 +123,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279110411
-  m_fontColor: {r: 0.041918844, g: 0.043630116, b: 0.05660379, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

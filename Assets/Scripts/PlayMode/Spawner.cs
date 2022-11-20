@@ -12,7 +12,8 @@ public class Spawner : MonoBehaviour
 
     // variables
     public bool isOn = true;
-    public Vector2 spawnSize;
+    public RectTransform spawnStart;
+    public RectTransform spawnEnd;
     public GameObject spawnObject;
     public float baseInterval = 1;
 
@@ -21,6 +22,10 @@ public class Spawner : MonoBehaviour
         // singleton
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
+    }
+
+    void Start() {
+        StartCoroutine(SinglePlayerSpawnerCR());
     }
 
     public void StartSinglePlayerSpawnerCR() {
@@ -50,12 +55,14 @@ public class Spawner : MonoBehaviour
 
     // spawn word with random text
     void SpawnRandomObject() {
+        // calculate spawn size
+        float spawnSizeX = spawnStart.position.x - spawnEnd.position.x;
+
         // randomize spawn position
         Vector2 pos = new Vector2();
-        pos.x = transform.position.x - spawnSize.x / 2;
-        pos.y = transform.position.y - spawnSize.y / 2;
-        pos.x += Random.value * spawnSize.x;
-        pos.y += Random.value * spawnSize.y;
+        pos.x = transform.position.x - spawnSizeX / 2;
+        pos.y = spawnStart.position.y;
+        pos.x += Random.value * spawnSizeX;
 
         // instantiate new obj
         GameObject i = Instantiate(spawnObject, pos, Quaternion.identity);
@@ -67,12 +74,14 @@ public class Spawner : MonoBehaviour
 
     // spawn word from the list
     void SpawnRandomObject(string e) {
+        // calculate spawn size
+        float spawnSizeX = spawnStart.position.x - spawnEnd.position.x;
+
         // randomize spawn position
         Vector2 pos = new Vector2();
-        pos.x = transform.position.x - spawnSize.x / 2;
-        pos.y = transform.position.y - spawnSize.y / 2;
-        pos.x += Random.value * spawnSize.x;
-        pos.y += Random.value * spawnSize.y;
+        pos.x = transform.position.x - spawnSizeX / 2;
+        pos.y = spawnStart.position.y;
+        pos.x += Random.value * spawnSizeX;
 
         // check if the queue is not empty
         if(wordQueue.Count != 0) {
@@ -83,11 +92,5 @@ public class Spawner : MonoBehaviour
             i.GetComponent<Word>().SetText(wordQueue.Dequeue());
         }
  
-    }
-
-    // Draw spawning area so it is easy to debug
-    void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, spawnSize);
     }
 }

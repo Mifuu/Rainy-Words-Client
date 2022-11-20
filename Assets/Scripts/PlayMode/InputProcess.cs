@@ -7,7 +7,9 @@ using TMPro; //use Textmesh Pro
 public class InputProcess : MonoBehaviour
 {
     TMP_InputField inputField;
-    private bool autoActivateInputField = true;
+    public bool autoActivateInputField = true;
+
+    public Color onTypeColor = Color.red;
 
     void Awake() {
         inputField = GetComponent<TMP_InputField> ();
@@ -18,19 +20,17 @@ public class InputProcess : MonoBehaviour
     }
 
     void Update() {
-        // check if for conditions to disable autpActivateInputField
+        // check if for conditions to disable autoActivateInputField
         if (ConnectionUIManager.instance != null && ConnectionUIManager.instance.isOn) {
             autoActivateInputField = false;
+        } else {
+            autoActivateInputField = true;
         }
         
         // if press [Enter]
         if (Input.GetKeyDown(KeyCode.Return)) {
-            // process word in the input field
-            ProcessWord(inputField.text);
-            // reset input field
-            inputField.text = "";
-            // reactivate input field incase it deactivate itself after [Enter]
-            if (autoActivateInputField) inputField.ActivateInputField();
+            // act like button
+            ButtonProcessWord();
         }
     }
 
@@ -42,6 +42,15 @@ public class InputProcess : MonoBehaviour
         // calling deliverMsg to send message in JSON format when the typed word matches
         if(WordManager.CheckWord(word, true)) ConnectionManager.DeliverMsg("playerTyped", word);
 
+    }
+
+    public void ButtonProcessWord() {
+        // process word in the input field
+        ProcessWord(inputField.text);
+        // reset input field
+        inputField.text = "";
+        // reactivate input field incase it deactivate itself after [Enter]
+        if (autoActivateInputField) inputField.ActivateInputField();
     }
 
     //----------------------Events-----------------------
