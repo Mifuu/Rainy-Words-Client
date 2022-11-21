@@ -15,6 +15,9 @@ public class MainMenu : MonoBehaviour
     [Header("Show Fields")]
     public TMP_Text nameText;
 
+    [Header("Player List Self Item Text")]
+    public TMP_Text pliSelfText;
+
     void Awake() {
         // singleton
         if (instance == null) instance = this;
@@ -34,6 +37,10 @@ public class MainMenu : MonoBehaviour
         string output = "";
         output += nameInputField.text.Equals("");
         return output;
+    }
+
+    public void SetPLISelf(string name) {
+        pliSelfText.text = name;
     }
 
     public void ButtonQuit() {
@@ -75,6 +82,9 @@ public class MainMenu : MonoBehaviour
                     // if enter
                     ButtonCheckName();
                 }
+                if (!ConnectionUIManager.instance.isOn) {
+                    nameInputField.ActivateInputField();
+                }
                 break;
             case "Welcome Panel":
                 if (Input.GetKeyDown(KeyCode.Return)) {
@@ -86,7 +96,7 @@ public class MainMenu : MonoBehaviour
                 if (onlinePlayers_timeTilRefresh < 0) {
                     onlinePlayers_timeTilRefresh = onlinePlayers_refreshPeriod;
                     // send refresh msg
-                    ConnectionManager.DeliverMsg("requestPlayerList", "" + Client.instance.myId);
+                    ConnectionManager.DeliverMsg("requestPlayerList", Client.instance.myId);
                 }
                 break;
         }

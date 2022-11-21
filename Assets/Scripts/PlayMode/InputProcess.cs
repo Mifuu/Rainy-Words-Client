@@ -9,7 +9,7 @@ public class InputProcess : MonoBehaviour
     TMP_InputField inputField;
     public bool autoActivateInputField = true;
 
-    public Color onTypeColor = Color.red;
+    public Color onTypeColor;
 
     void Awake() {
         inputField = GetComponent<TMP_InputField> ();
@@ -60,7 +60,7 @@ public class InputProcess : MonoBehaviour
     //----------------------Events-----------------------
     // on every key input changed in input field
     public void OnType() {
-        WordManager.CheckTyping(inputField.text, Color.red);
+        WordManager.CheckTyping(inputField.text, onTypeColor);
     }
 
     public void OnDeselect() {

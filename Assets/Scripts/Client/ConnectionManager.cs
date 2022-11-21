@@ -118,22 +118,21 @@ public class ConnectionManager
             if (GameManager.instance != null) GameManager.instance.ReceivedAssignID();
 
             // send back
-            DeliverMsg("requestPlayerList", "" + Client.instance.myId);
+            DeliverMsg("requestPlayerList", Client.instance.myId);
         }
         if (msgObj.scoreList.Length > 0) {
             // Received score list
             // Debug log
             string s = "ConnectionManager: Receive Score List: ";
             foreach (ScoreReceived c in msgObj.scoreList) {
-                s += $"(id:{c.id},name:{c.name},score:{c.score}),";
+                s += $"(id:{c.id},score:{c.score}),";
             }
             Debug.Log(s);
 
-
-            /* TAN_TODO:  
-                1. convert data
-                2. call function to update player score
-            */
+            // tell PlayManager
+            if (PlayManager.instance != null) {
+                PlayManager.instance.UpdateScores(msgObj.scoreList[0].id, msgObj.scoreList[0].score, msgObj.scoreList[1].id, msgObj.scoreList[1].score);
+            }
         }
         if (msgObj.matchStart.Length > 0) {
             // Received matchStart
@@ -170,6 +169,14 @@ public class ConnectionManager
         s += "\""+ key + "\":\"" + word + "\"}";
         ClientSend.SendString(s);
         // Debug.Log(s);
+    }
+    public static void DeliverMsg(string key, int word) {
+        string s = "{";
+        s += "\""+ key + "\":" + word + "}";
+        ClientSend.SendString(s);
+    }
+    public static void DeliverMsg(string msg) {
+        ClientSend.SendString(msg);
     }
 /*
 {
@@ -233,7 +240,6 @@ public class ConnectionManager
     public class ScoreReceived
     {
         public int id;
-        public string name;
         public int score;
     }
 

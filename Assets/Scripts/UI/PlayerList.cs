@@ -50,7 +50,7 @@ public class PlayerList : MonoBehaviour
         // check if idNameList with the given id and name already exists
         bool foundPair = false;
         foreach ((int id, string name) i in idNameList) {
-            if (i.id == id && i.name == name) {
+            if (i.id == id) {
                 foundPair = true;
                 break;
             }
@@ -65,7 +65,7 @@ public class PlayerList : MonoBehaviour
         // check if playerListItem with given id and name already exists
         PlayerListItem target = null;
         foreach (PlayerListItem p in instance.itemList) {
-            if (p.id == id && p.name == name) {
+            if (p.id == id) {
                 target = p;
                 break;
             }
@@ -95,6 +95,18 @@ public class PlayerList : MonoBehaviour
         // itemList
         if (instance == null) return;
         List<PlayerListItem> buffer = new List<PlayerListItem> (instance.itemList);
+
+        // mod idNameList to remove self from it
+        int myID = Client.instance.myId;
+        for (int i = 0; i < idNameList.Count; i++) {
+            if (idNameList[i].id == myID) {
+                // tell MainMenu that is our name
+                if (MainMenu.instance != null) MainMenu.instance.SetPLISelf(idNameList[i].name);
+                // remove
+                idNameList.RemoveAt(i);
+                break;
+            }
+        }
 
         foreach ((int id, string name, bool isBusy) i in idNameList) {
             PlayerListItem p = GetMatchedInList((i.id, i.name));
@@ -126,7 +138,7 @@ public class PlayerList : MonoBehaviour
 
         for (int i = 0; i < instance.itemList.Count; i++) {
             PlayerListItem p = instance.itemList[i];
-            if (p.id == idName.id && p.name == idName.name) {
+            if (p.id == idName.id) {
                 return p;
             }
         }

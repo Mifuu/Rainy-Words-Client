@@ -71,6 +71,9 @@ public class ConnectionUIManager : MonoBehaviour
             isOn = !isOn;
             UpdateDebugMenu();
         }
+        if (isOn && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.M)) {
+            GameManager.instance.ChangeSceneMultiPlayer();
+        }
     }
     
     private void UpdateDebugMenu() {

@@ -113,6 +113,14 @@ public class PlayManager : MonoBehaviour
         UpdateScoreText();
     }
 
+    public void UpdateScores(int id1, int score1, int id2, int score2) {
+        if (id1 == Client.instance.myId) {
+            UpdateScores(score1, score2);
+        } else {
+            UpdateScores(score2, score1);
+        }
+    }
+
     ///<summary>Trigger the end of the game</summary>
     public static void EndGame() {
         // use stopping time for now

@@ -106,7 +106,8 @@ public class Client : MonoBehaviour
             }
             catch (Exception _ex)
             {
-                Debug.Log($"Error sending data to server via TCP: {_ex}");
+                // Debug.Log($"Error sending data to server via TCP: {_ex}");
+                Debug.Log("Sending MSG Without Server!");
             }
         }
 

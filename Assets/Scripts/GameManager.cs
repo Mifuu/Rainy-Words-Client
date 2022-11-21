@@ -55,9 +55,11 @@ public class GameManager : MonoBehaviour
             if (nextSceneMode == NextSceneMode.Multi) {
                 // start multi
                 playManager.SetupMultiplayer(multiModeName, multiModeOtherName, 300);
+                PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             } else {
                 // start single
                 playManager.SetupSingleplayer(150);
+                PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             }
         }
     }
@@ -116,11 +118,17 @@ public class GameManager : MonoBehaviour
     public void ChangeSceneSinglePlayer(int id) {
         singleModeID = id;
         nextSceneMode = NextSceneMode.Single;
-        SceneManager.LoadScene(playSceneName);
+        StartCoroutine(ChangeScenePlayCR());
     }
 
     public void ChangeSceneMultiPlayer() {
         nextSceneMode = NextSceneMode.Multi;
+        StartCoroutine(ChangeScenePlayCR());
+    }
+
+    IEnumerator ChangeScenePlayCR() {
+        float time = PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
+        yield return new WaitForSeconds(time);
         SceneManager.LoadScene(playSceneName);
     }
 

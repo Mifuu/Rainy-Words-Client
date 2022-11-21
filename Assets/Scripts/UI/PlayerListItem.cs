@@ -35,10 +35,10 @@ public class PlayerListItem : MonoBehaviour
     public void SetBusy(bool isBusy) {
         if (!this.isBusy && isBusy) {
             SetState(State.Busy);
-            isBusy = true;
+            this.isBusy = true;
         } else if (this.isBusy && !isBusy) {
             SetState(State.Match);
-            isBusy = false;
+            this.isBusy = false;
         }
     }
 
@@ -79,7 +79,8 @@ public class PlayerListItem : MonoBehaviour
         // send match request according to protocol
         if (Client.instance == null) return;
         int myId = Client.instance.myId;
-        ConnectionManager.DeliverMsg("matchRequest", $"[{myId},{id}]");
+        // ConnectionManager.DeliverMsg("matchRequest", $"[{myId},{id}]");
+        ConnectionManager.DeliverMsg("{" + $"\"matchRequest\":[{myId},{id}]" + "}");
         SetState(State.Wait);
     }
 
@@ -87,7 +88,7 @@ public class PlayerListItem : MonoBehaviour
         // send match accept/request according to protocol
         if (Client.instance == null) return;
         int myId = Client.instance.myId;
-        ConnectionManager.DeliverMsg("matchRequest", $"[{myId},{id}]");
+        ConnectionManager.DeliverMsg("{" + $"\"matchRequest\":[{myId},{id}]" + "}");
         SetState(State.Retain);
     }
 }
