@@ -11,7 +11,9 @@ public class MusicManager : MonoBehaviour
 
     static public float musicVolume = 1;
 
-    public Sound theme1;
+    public Sound[] themes;
+
+    int musicIndex = 0;
 
     bool bossMode = false;
 
@@ -20,11 +22,13 @@ public class MusicManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(this);
 
-        Setup(theme1);
+        foreach (Sound theme in themes) {
+            Setup(theme);
+        }
     }
 
     void Start() {
-        Play(theme1);
+        Play(themes[0]);
         SetMusicVolume(musicVolume);
     }
 
@@ -44,9 +48,25 @@ public class MusicManager : MonoBehaviour
         sound.source.Play();
     }
 
+    void PlayIndex(int index) {
+        foreach (Sound theme in themes) {
+            theme.source.Stop();
+        }
+        
+        Play(themes[index]);
+    }
+
     public void SetMusicVolume(float vol) {
         musicVolume = vol;
-        theme1.source.volume = theme1.volume * musicVolume;
+        foreach (Sound theme in themes) {
+            theme.source.volume = theme.volume * musicVolume;
+        }
+    }
+
+    public void CycleMusic() {
+        musicIndex++;
+        musicIndex %= themes.Length;
+        PlayIndex(musicIndex);
     }
 }
 

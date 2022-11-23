@@ -8,6 +8,7 @@ public class Setting : MonoBehaviour
     public static bool isSet = false;
     public static int musicVolumeWhole = 0;
     public static int sfxVolumeWhole = 0;
+    public static bool vfxOn = true;
 
     public Button musicPlusButton;
     public Button musicMinusButton;
@@ -17,6 +18,11 @@ public class Setting : MonoBehaviour
     public Slider sfxSlider;
 
     UnityEngine.Rendering.Universal.ColorAdjustments colAdj;
+    UnityEngine.Rendering.Universal.ChromaticAberration chrAbe;
+    UnityEngine.Rendering.Universal.LensDistortion lenDis;
+    UnityEngine.Rendering.Universal.FilmGrain filGra;
+    UnityEngine.Rendering.Universal.Vignette vignet;
+    UnityEngine.Rendering.Universal.Bloom bloom;
 
     void Start() {
         if (!isSet) {
@@ -35,6 +41,11 @@ public class Setting : MonoBehaviour
             Debug.Log("Setting: ERROR, can't get volume!");
         } else {
             if (!volumeProfile.TryGet(out colAdj)) throw new System.NullReferenceException(nameof(colAdj));
+            if (!volumeProfile.TryGet(out chrAbe)) throw new System.NullReferenceException(nameof(chrAbe));
+            if (!volumeProfile.TryGet(out lenDis)) throw new System.NullReferenceException(nameof(lenDis));
+            if (!volumeProfile.TryGet(out filGra)) throw new System.NullReferenceException(nameof(filGra));
+            if (!volumeProfile.TryGet(out vignet)) throw new System.NullReferenceException(nameof(vignet));
+            if (!volumeProfile.TryGet(out bloom)) throw new System.NullReferenceException(nameof(bloom));
         }
     }
 
@@ -63,6 +74,27 @@ public class Setting : MonoBehaviour
         sfxSlider.value--;
     }
 
+    public void ButtonCycleThemeColor() {
+        if (colAdj == null) return;
+        float x = colAdj.hueShift.value;
+        x = (((x + 180) + 60) % 360) - 180;
+        colAdj.hueShift.value = x;
+    }
+
+    public void ButtonCycleMusic() {
+        if (MusicManager.instance == null) return;
+        MusicManager.instance.CycleMusic();
+    }
+
+    public void ButtonToggleVFX() {
+        vfxOn = !vfxOn;
+        chrAbe.active = vfxOn;
+        lenDis.active = vfxOn;
+        filGra.active = vfxOn;
+        vignet.active = vfxOn;
+        bloom.active = vfxOn;
+    }
+
     public void SliderMusicChanged() {
         if (MusicManager.instance != null) {
             float value = (musicSlider.value / (musicSlider.maxValue / 2));
@@ -81,12 +113,5 @@ public class Setting : MonoBehaviour
         }
 
         SFXManager._PlaySFX("Click3", gameObject);
-    }
-
-    public void ButtonScrollThemeColor() {
-        if (colAdj == null) return;
-        float x = colAdj.hueShift.value;
-        x = (((x + 180) + 60) % 360) - 180;
-        colAdj.hueShift.value = x;
     }
 }
