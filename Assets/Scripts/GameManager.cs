@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     // var
     bool isConnected;   // use for checking if the game is connected to the server
     public enum NextSceneMode {Menu, Single, Multi}
-    public static NextSceneMode nextSceneMode = NextSceneMode.Menu;
+    public static NextSceneMode nextSceneMode = NextSceneMode.Single;
+    public static bool isPaused = false;
     int singleModeID = 0;
     string multiModeOtherName = "";
     string multiModeName = "";
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager.OnSceneLoaded()");
         string sceneName = scene.name;
         if (sceneName.Equals(menuSceneName)) {
-            
+            PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
         } else if (sceneName.Equals(playSceneName)) {
             // find PlayManager
             playManager = FindObjectOfType<PlayManager> ();
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
             // start the game accordingly
             if (nextSceneMode == NextSceneMode.Multi) {
                 // start multi
-                playManager.SetupMultiplayer(multiModeName, multiModeOtherName, 5);
+                playManager.SetupMultiplayer(multiModeName, multiModeOtherName, 300);
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             } else {
                 // start single
@@ -119,6 +120,11 @@ public class GameManager : MonoBehaviour
         ChangeSceneMultiPlayer();
     }
 
+    public void ChangeSceneMenu() {
+        nextSceneMode = NextSceneMode.Menu;
+        StartCoroutine(ChangeSceneMenuCR());
+    }
+
     public void ChangeSceneSinglePlayer(int id) {
         singleModeID = id;
         nextSceneMode = NextSceneMode.Single;
@@ -130,6 +136,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ChangeScenePlayCR());
     }
 
+    IEnumerator ChangeSceneMenuCR() {
+        float time = PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(menuSceneName);
+    }
+
     IEnumerator ChangeScenePlayCR() {
         float time = PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
         yield return new WaitForSeconds(time);
@@ -138,6 +150,15 @@ public class GameManager : MonoBehaviour
 
     public void PlayTransition() {
         PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
+    }
+
+    public bool InMenuScene() {
+        return SceneManager.GetActiveScene().name.Equals(menuSceneName);
+    }
+
+    public void Pause(bool i) {
+        if (nextSceneMode != NextSceneMode.Single) isPaused = false;
+        isPaused = i;
     }
 
     //-----------------Event---------------------

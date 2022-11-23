@@ -25,9 +25,11 @@ public class Word : MonoBehaviour
 
     void FixedUpdate() {
         // apply velocity
-        Vector3 pos = transform.position;
-        pos.y += velocityY * Time.fixedDeltaTime;
-        transform.position = pos;
+        if (!GameManager.isPaused) {
+            Vector3 pos = transform.position;
+            pos.y += velocityY * Time.fixedDeltaTime;
+            transform.position = pos;
+        }
     }
 
     public void Remove() {

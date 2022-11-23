@@ -38,19 +38,36 @@ public class Spawner : MonoBehaviour
     }
 
     IEnumerator SinglePlayerSpawnerCR() {
+        float timer = baseInterval;
         while (isOn && spawnObject != null) {
-            yield return new WaitForSeconds(baseInterval);
-            SpawnRandomObject();
+            if (!GameManager.isPaused) {
+                yield return 0;
+                timer -= Time.deltaTime;
+                if (timer < 0) {
+                    SpawnRandomObject();
+                    timer = baseInterval;
+                }
+            } else {
+                yield return 0;
+            }
         }
         
     }
 
     IEnumerator MultiPlayerSpawnerCR() {
+        float timer = baseInterval;
         while (isOn && spawnObject != null) {
-            yield return new WaitForSeconds(baseInterval);
-            SpawnRandomObject("e");
+            if (!GameManager.isPaused) {
+                yield return 0;
+                timer -= Time.deltaTime;
+                if (timer < 0) {
+                    SpawnRandomObject("e");
+                    timer = baseInterval;
+                }
+            } else {
+                yield return 0;
+            }
         }
-        
     }
 
     // spawn word with random text
@@ -65,7 +82,7 @@ public class Spawner : MonoBehaviour
         pos.x += Random.value * spawnSizeX;
 
         // instantiate new obj
-        GameObject i = Instantiate(spawnObject, pos, Quaternion.identity);
+        GameObject i = Instantiate(spawnObject, new Vector3 (pos.x, pos.y, transform.position.z), Quaternion.identity);
 
         // TODO: check if offline or online
         // set text to random text in wordlist
@@ -86,7 +103,7 @@ public class Spawner : MonoBehaviour
         // check if the queue is not empty
         if(wordQueue.Count != 0) {
             // instantiate new obj
-            GameObject i = Instantiate(spawnObject, pos, Quaternion.identity);         
+            GameObject i = Instantiate(spawnObject, new Vector3 (pos.x, pos.y, transform.position.z), Quaternion.identity);         
 
             // set object to have the top value from the queue
             i.GetComponent<Word>().SetText(wordQueue.Dequeue());

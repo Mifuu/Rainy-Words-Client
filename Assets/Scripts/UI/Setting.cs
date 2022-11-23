@@ -10,6 +10,7 @@ public class Setting : MonoBehaviour
     public static int sfxVolumeWhole = 0;
     public static bool vfxOn = true;
 
+    public Button menuButton;
     public Button musicPlusButton;
     public Button musicMinusButton;
     public Button sfxPlusButton;
@@ -47,15 +48,36 @@ public class Setting : MonoBehaviour
             if (!volumeProfile.TryGet(out vignet)) throw new System.NullReferenceException(nameof(vignet));
             if (!volumeProfile.TryGet(out bloom)) throw new System.NullReferenceException(nameof(bloom));
         }
+
+        // if not in menu scene
+        if (GameManager.instance != null && !GameManager.instance.InMenuScene()) {
+            menuButton.gameObject.SetActive(true);
+        } else {
+            menuButton.gameObject.SetActive(false);
+        }
     }
 
     void OnDisable() {
-        this.enabled = true;
+        GameManager.instance.Pause(false);
     }
 
-    void OnApplicationQuite() {
+    void OnEnable() {
+        GameManager.instance.Pause(true);
+    }
+
+    void OnApplicationQuit() {
         if (colAdj == null) return;
         colAdj.hueShift.value = 0;
+    }
+
+    public void ButtonBack() {
+        if (PanelManager.instance != null) {
+            PanelManager.instance.Previous();
+        }
+    }
+
+    public void ButtonMenu() {
+        GameManager.instance.ChangeSceneMenu();
     }
 
     public void ButtonMusicPlus() {

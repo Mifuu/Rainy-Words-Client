@@ -50,7 +50,7 @@ public class PlayManager : MonoBehaviour
     }
 
     void Update() {
-        if (isPlaying) {
+        if (isPlaying && !GameManager.isPaused) {
             timer -= Time.deltaTime;
             if (timer < 0) {
                 isPlaying = false;

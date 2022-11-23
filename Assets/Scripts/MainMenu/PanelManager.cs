@@ -28,7 +28,7 @@ public class PanelManager : MonoBehaviour
     }
 
     void Start() {
-
+        SetInitialPanel();
     }
 
     public void SetInitialPanel() {

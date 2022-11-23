@@ -4689,10 +4689,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cfc14f6ca524df0bd2f3ce35045d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theme1:
-    name: Theme1
+  themes:
+  - name: theme1
     clip: {fileID: 8300000, guid: 60845104046b243cba3922f2bebd1fec, type: 3}
-    volume: 0.3
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: theme3
+    clip: {fileID: 8300000, guid: 904535d30bb67483bb69ef57261d081c, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: theme3
+    clip: {fileID: 8300000, guid: 584becff83914484cb831c74703bc19c, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: theme4
+    clip: {fileID: 8300000, guid: dd5d51cf42f35400b95d948b058f610a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: theme5
+    clip: {fileID: 8300000, guid: 1bf4a392c95214d26bafac7378c43a95, type: 3}
+    volume: 1
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -4711,19 +4735,19 @@ MonoBehaviour:
   sounds:
   - name: Click1
     clip: {fileID: 8300000, guid: 762603ad3dc654bb4acc84600314fbd0, type: 3}
-    volume: 0.8
+    volume: 2
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Click2
     clip: {fileID: 8300000, guid: 08ab776a5593e4d2f8171c8414056651, type: 3}
-    volume: 0.3
+    volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Click3
     clip: {fileID: 8300000, guid: b283cf0e2078e483687b34ba44aff20c, type: 3}
-    volume: 0.175
+    volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
