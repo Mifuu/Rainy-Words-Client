@@ -50,8 +50,15 @@ public class PlayManager : MonoBehaviour
     }
 
     void Update() {
-        timer -= Time.deltaTime;
-        UpdateTimerText();
+        if (isPlaying) {
+            timer -= Time.deltaTime;
+            if (timer < 0) {
+                isPlaying = false;
+                timer = 0;
+                EndGame();
+            }
+            UpdateTimerText();
+        }
     }
     //----------------------Functions-----------------------
     public void SetupSingleplayer(float timer) {
@@ -68,6 +75,8 @@ public class PlayManager : MonoBehaviour
         UpdateNameText();
         UpdateScoreText();
 
+        isPlaying = true;
+        isMultiplayer = false;
         Spawner.instance.StartSinglePlayerSpawnerCR();
     }
 
@@ -85,6 +94,8 @@ public class PlayManager : MonoBehaviour
         UpdateNameText();
         UpdateScoreText();
 
+        isPlaying = true;
+        isMultiplayer = true;
         Spawner.instance.StartMultiPlayerSpawnerCR();
     }
 
@@ -124,7 +135,9 @@ public class PlayManager : MonoBehaviour
     ///<summary>Trigger the end of the game</summary>
     public static void EndGame() {
         // use stopping time for now
-        Time.timeScale = 0;
+        // Time.timeScale = 0;
+
+        Debug.Log("PlayManager: EndGame()");
     }
 
     public static void AddSinglePlayerScore() {

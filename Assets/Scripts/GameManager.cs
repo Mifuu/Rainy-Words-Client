@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     public string menuSceneName = "MainMenu1";
     public string playSceneName = "GameTest";
 
+    [Header("Object References")]
+    public UnityEngine.Rendering.VolumeProfile volumeProfile;
+
     void Awake() {
         // singleton
         if (instance == null) instance = this;
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Debug.Log("GameManager.OnSceneLoaded()");
         string sceneName = scene.name;
         if (sceneName.Equals(menuSceneName)) {
             
@@ -54,7 +58,7 @@ public class GameManager : MonoBehaviour
             // start the game accordingly
             if (nextSceneMode == NextSceneMode.Multi) {
                 // start multi
-                playManager.SetupMultiplayer(multiModeName, multiModeOtherName, 300);
+                playManager.SetupMultiplayer(multiModeName, multiModeOtherName, 5);
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             } else {
                 // start single
@@ -130,6 +134,10 @@ public class GameManager : MonoBehaviour
         float time = PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene(playSceneName);
+    }
+
+    public void PlayTransition() {
+        PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
     }
 
     //-----------------Event---------------------

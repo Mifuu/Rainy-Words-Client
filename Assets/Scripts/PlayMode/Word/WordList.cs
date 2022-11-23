@@ -26,6 +26,9 @@ public class WordList
 
     /// <summary> add new list of word </summary>
     public static void AddListResource(string filename, string listname) {
+        // check if exist
+        if (wordLists.ContainsKey(listname)) return;
+
         // https://forum.unity.com/threads/get-a-random-word-from-the-dictionary.383833/
         TextAsset textAsset = (TextAsset)Resources.Load(filename);
         string[] newList = textAsset.text.Split(delimiterChars);
