@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             } else {
                 // start single
-                playManager.SetupSingleplayer(15);
+                playManager.SetupSingleplayer(7);
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             }
         }
