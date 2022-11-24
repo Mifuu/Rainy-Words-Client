@@ -93,7 +93,8 @@ public class PlayManager : MonoBehaviour
 
         isPlaying = true;
         isMultiplayer = false;
-        Spawner.instance.StartSinglePlayerSpawnerCR();
+        
+        Spawner.instance.StartSinglePlayerSpawner(GameManager.instance.singleModeID);
     }
 
     public void SetupMultiplayer(string p1Name, string p2Name, float timer) {
@@ -112,7 +113,7 @@ public class PlayManager : MonoBehaviour
 
         isPlaying = true;
         isMultiplayer = true;
-        Spawner.instance.StartMultiPlayerSpawnerCR();
+        Spawner.instance.StartMultiPlayerSpawner();
     }
 
     public void UpdateNameText() {
@@ -157,6 +158,7 @@ public class PlayManager : MonoBehaviour
         Debug.Log("Player 1 score: " + p1Score);        
         Debug.Log("Player 2 score: " + p2Score);
 
+        // please remove the "!" in the if statement once bug fix is complete
         if(PlayManager.instance.isMultiplayer) {
             PanelManager.StaticNext("Conclusion Panel");
             PlayManager.instance.p1ScoreEndgame.text = p1Name + " " + p1Score;

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public enum NextSceneMode {Menu, Single, Multi}
     public static NextSceneMode nextSceneMode = NextSceneMode.Single;
     public static bool isPaused = false;
-    int singleModeID = 0;
+    public int singleModeID = 0;
     string multiModeOtherName = "";
     string multiModeName = "";
     int multiModeMyId = 0;
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        isPaused = false;
         Debug.Log("GameManager.OnSceneLoaded(), nextSceneMode: " + nextSceneMode.ToString());
         string sceneName = scene.name;
         if (sceneName.Equals(menuSceneName)) {
@@ -65,9 +66,17 @@ public class GameManager : MonoBehaviour
                 // tell server player ready to play
                 ConnectionManager.DeliverMsg("{\"readyToPlay\":[" + $"{Client.instance.myId},{multiModeOtherId}" + "]}");
             } else {
-                // start single
-                playManager.SetupSingleplayer(3);
-                PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
+                if (singleModeID == 3) {
+                    // start netcentric mode
+                    playManager.SetupSingleplayer(240);
+                    // playManager.SetupSingleplayer(10);
+                    PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
+                } else {
+                    // start other single mode
+                    playManager.SetupSingleplayer(150);
+                    // playManager.SetupSingleplayer(10);
+                    PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
+                }
             }
         }
     }
@@ -83,7 +92,9 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        PanelManager.StaticNext("Online Players Panel");
+        yield return new WaitForSeconds(1);
+
+        PanelManager.StaticNext("Welcome Panel");
     }
 
     public void WaitForConnectionToPlayerList() {

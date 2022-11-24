@@ -1145,7 +1145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &310139051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2773,7 +2773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &773424929
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4716,6 +4716,8 @@ MonoBehaviour:
   spawnEnd: {fileID: 917748964}
   spawnObject: {fileID: 68290224890595196, guid: 255fd4046853d42668738fe9833ba106, type: 3}
   baseInterval: 1.5
+  baseIntervalMultiplayer: 0.5
+  speedFactorMultiplayer: 1.6
 --- !u!1 &1643379038
 GameObject:
   m_ObjectHideFlags: 0

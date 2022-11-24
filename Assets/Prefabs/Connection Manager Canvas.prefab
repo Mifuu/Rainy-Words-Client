@@ -4674,6 +4674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2067511741dd145a6858e78fe96e9d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  singleModeID: 0
   menuSceneName: MainMenu1
   playSceneName: GameTest
   volumeProfile: {fileID: 11400000, guid: 285c9602a2ec74dceb04e436ae017057, type: 2}
@@ -4765,6 +4766,12 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Type1
     clip: {fileID: 8300000, guid: bf8087f17f3264a25b7bc3538aff3f8f, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Gameover1
+    clip: {fileID: 8300000, guid: 655b88e2c969a48088b3e0687899ec57, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
