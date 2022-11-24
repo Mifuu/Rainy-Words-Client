@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 // Manage the state of game inside Game scene
 public class PlayManager : MonoBehaviour
@@ -23,12 +24,11 @@ public class PlayManager : MonoBehaviour
     public WordManager wordManager;
 
     // managing var
-    float timer = 0;
-    int score = 0;
-    string p1Name = "";
-    int p1Score = 0;
-    string p2Name = "";
-    int p2Score = 0;
+    static float timer = 0;
+    static string p1Name = "";
+    static int p1Score = 0;
+    static string p2Name = "";
+    static int p2Score = 0;
     
     // other var
     public bool isPlaying = false;
@@ -61,12 +61,21 @@ public class PlayManager : MonoBehaviour
         }
     }
     //----------------------Functions-----------------------
+    
+    public void ButtonRestart() {
+        GameManager.instance.ChangeSceneSinglePlayer();
+    }
+
+    public void ButtonToMenu() {
+        GameManager.instance.ChangeSceneMenu();
+    }
+
     public void SetupSingleplayer(float timer) {
-        this.timer = timer;
-        this.p1Name = "You";
-        this.p2Name = "";
-        this.p1Score = 0;
-        this.p2Score = 0;
+        PlayManager.timer = timer;
+        PlayManager.p1Name = "You";
+        PlayManager.p2Name = "";
+        PlayManager.p1Score = 0;
+        PlayManager.p2Score = 0;
 
         this.timerText.gameObject.SetActive(true);
         this.p1Container.gameObject.SetActive(true);
@@ -81,11 +90,11 @@ public class PlayManager : MonoBehaviour
     }
 
     public void SetupMultiplayer(string p1Name, string p2Name, float timer) {
-        this.timer = timer;
-        this.p1Name = p1Name;
-        this.p2Name = p2Name;
-        this.p1Score = 0;
-        this.p2Score = 0;
+        PlayManager.timer = timer;
+        PlayManager.p1Name = p1Name;
+        PlayManager.p2Name = p2Name;
+        PlayManager.p1Score = 0;
+        PlayManager.p2Score = 0;
 
         this.timerText.gameObject.SetActive(true);
         this.p1Container.gameObject.SetActive(true);
@@ -118,8 +127,8 @@ public class PlayManager : MonoBehaviour
     }
 
     public void UpdateScores(int p1Score, int p2Score) {
-        this.p1Score = p1Score;
-        this.p2Score = p2Score;
+        PlayManager.p1Score = p1Score;
+        PlayManager.p2Score = p2Score;
 
         UpdateScoreText();
     }
@@ -138,12 +147,14 @@ public class PlayManager : MonoBehaviour
         // Time.timeScale = 0;
 
         Debug.Log("PlayManager: EndGame()");
+        // GameManager.instance.ChangeSceneMenu("Single P Conclusion Panel");
+        PanelManager.StaticNext("Single P Conclusion Panel");
     }
 
     public static void AddSinglePlayerScore() {
         if (instance == null) return;
 
-        instance.p1Score++;
+        p1Score++;
         instance.UpdateScoreText();
     }
 }

@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             } else {
                 // start single
-                playManager.SetupSingleplayer(150);
+                playManager.SetupSingleplayer(15);
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             }
         }
@@ -125,6 +125,15 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ChangeSceneMenuCR());
     }
 
+    public void ChangeSceneMenu(string panelName) {
+        nextSceneMode = NextSceneMode.Menu;
+        StartCoroutine(ChangeSceneMenuCR(panelName));
+    }
+
+    public void ChangeSceneSinglePlayer() {
+        ChangeSceneSinglePlayer(singleModeID);
+    }
+
     public void ChangeSceneSinglePlayer(int id) {
         singleModeID = id;
         nextSceneMode = NextSceneMode.Single;
@@ -140,6 +149,12 @@ public class GameManager : MonoBehaviour
         float time = PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene(menuSceneName);
+    }
+    IEnumerator ChangeSceneMenuCR(string panelName) {
+        float time = PanelManager.PlayTransition(true, PanelManager.Panel.Transition.FadeDrop);
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(menuSceneName);
+        PanelManager.StaticNext("Single P Conclusion Panel");
     }
 
     IEnumerator ChangeScenePlayCR() {
