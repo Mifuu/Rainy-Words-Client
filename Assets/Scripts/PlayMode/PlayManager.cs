@@ -75,6 +75,7 @@ public class PlayManager : MonoBehaviour
 
     public void ButtonToMenu() {
         GameManager.instance.ChangeSceneMenu();
+        ConnectionManager.DeliverMsg("removeClient", Client.instance.myId);
     }
 
     public void SetupSingleplayer(float timer) {

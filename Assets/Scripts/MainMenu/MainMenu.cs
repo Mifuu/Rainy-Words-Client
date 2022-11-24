@@ -68,6 +68,10 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void ButtonRemoveClient() {
+        ConnectionManager.DeliverMsg("removeClient", Client.instance.myId);
+    }
+
     // specific input per panel
     float onlinePlayers_refreshPeriod = 3;
     float onlinePlayers_timeTilRefresh = 0;
