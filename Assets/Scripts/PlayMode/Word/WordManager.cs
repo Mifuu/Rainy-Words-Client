@@ -28,12 +28,27 @@ public class WordManager : MonoBehaviour
             if (w.transform.position.y > lowerBound.position.y) continue;
 
             // if any word go passed the lowerbound, remove that word and end the game
-            ConnectionManager.DeliverMsg("wordExpire", w.text);
+            if (GameManager.nextSceneMode != GameManager.NextSceneMode.Single) {
+                // multiplayer case
+                ConnectionManager.DeliverMsg("wordExpire", w.text);
+            } else {
+                // singleplayer case: gameover
+                // stop game
+                GameManager.instance.Pause(true);
+                SFXManager._PlaySFX("Gameover1", PlayManager.instance.gameObject);
+                StartCoroutine(DelayGameover());
+            }
             w.Remove();
 
             // TODO: End game for single player
             break;
         }
+    }
+
+    IEnumerator DelayGameover() {
+        yield return new WaitForSeconds(1.75f);
+        // PanelManager.StaticNext("Single P Conclusion Panel");
+        PlayManager.EndGame();
     }
 
     //----------------------Check-----------------------
@@ -79,7 +94,7 @@ public class WordManager : MonoBehaviour
         return false;
     }
 
-    public static bool CheckWordNetCentric(string word, bool removeMatchingWord) {
+    public static bool CheckWordNetcentric(string word, bool removeMatchingWord) {
         int count = 0;
 
         foreach (Word w in words) {
@@ -95,7 +110,7 @@ public class WordManager : MonoBehaviour
         return false;
     }
 
-    public static bool CheckTypingNetCentric(string word, Color col) {
+    public static bool CheckTypingNetcentric(string word, Color col) {
         if (word.Equals("")) return false;
 
         int count = 0;
@@ -106,7 +121,10 @@ public class WordManager : MonoBehaviour
             }
 
             string text = w.text.Substring(0, word.Length);
-            if (text.Equals(word)) {
+            if (w.text.Equals(word)) {
+                // directly equal
+                w.tmp.text = "<color=#" + Word.GetHex(col) + ">" + w.nText + "<color=#" + Word.GetHex(w.tmp.color) + ">";
+            } if (text.Equals(word)) {
                 string[] textWord = w.text.Split(' ');
                 
                 int matchWordCount = 0;

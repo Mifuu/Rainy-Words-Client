@@ -16,6 +16,8 @@ public class Spawner : MonoBehaviour
     public RectTransform spawnEnd;
     public GameObject spawnObject;
     public float baseInterval = 1;
+    public float baseIntervalMultiplayer = 0.5f;
+    public float speedFactorMultiplayer = 1.6f;
 
     //----------------------Functions-----------------------
     void Awake() {
@@ -28,24 +30,37 @@ public class Spawner : MonoBehaviour
         // StartCoroutine(SinglePlayerSpawnerCR());
     }
 
-    public void StartSinglePlayerSpawnerCR() {
-        StartCoroutine(SinglePlayerSpawnerCR());
+    public void StartSinglePlayerSpawner(int modeID) {
+        switch (modeID) {
+            case 0:
+                StartCoroutine(SinglePlayerSpawnerCR(baseInterval * 2.3f, 1.6f));
+                break;
+            case 1:
+                StartCoroutine(SinglePlayerSpawnerCR(baseInterval * 1.4f, 1.25f));
+                break;
+            case 2:
+                StartCoroutine(SinglePlayerSpawnerCR(baseInterval * 0.9f, 1));
+                break;
+            case 3:
+                StartCoroutine(NetcentricSpawnerCR(baseInterval * 2.5f, 0.5f));
+                break;
+        }
     }
 
     // 
-    public void StartMultiPlayerSpawnerCR() {
+    public void StartMultiPlayerSpawner() {
         StartCoroutine(MultiPlayerSpawnerCR());
     }
 
-    IEnumerator SinglePlayerSpawnerCR() {
-        float timer = baseInterval;
+    IEnumerator SinglePlayerSpawnerCR(float initTimer, float speedFactor) {
+        float timer = initTimer;
         while (isOn && spawnObject != null) {
             if (!GameManager.isPaused) {
                 yield return 0;
                 timer -= Time.deltaTime;
                 if (timer < 0) {
-                    SpawnRandomObject();
-                    timer = baseInterval;
+                    SpawnRandomObject(speedFactor);
+                    timer = initTimer;
                 }
             } else {
                 yield return 0;
@@ -55,14 +70,30 @@ public class Spawner : MonoBehaviour
     }
 
     IEnumerator MultiPlayerSpawnerCR() {
-        float timer = baseInterval;
+        float timer = baseIntervalMultiplayer;
         while (isOn && spawnObject != null) {
             if (!GameManager.isPaused) {
                 yield return 0;
                 timer -= Time.deltaTime;
                 if (timer < 0) {
-                    SpawnRandomObjectMultiplayer();
-                    timer = baseInterval;
+                    SpawnObjectMultiplayer();
+                    timer = baseIntervalMultiplayer;
+                }
+            } else {
+                yield return 0;
+            }
+        }
+    }
+
+    IEnumerator NetcentricSpawnerCR(float initTimer, float speedFactor) {
+        float timer = initTimer;
+        while (isOn && spawnObject != null) {
+            if (!GameManager.isPaused) {
+                yield return 0;
+                timer -= Time.deltaTime;
+                if (timer < 0) {
+                    SpawnObjectNetcentric(speedFactor);
+                    timer = initTimer;
                 }
             } else {
                 yield return 0;
@@ -71,7 +102,7 @@ public class Spawner : MonoBehaviour
     }
 
     // spawn word with random text
-    void SpawnRandomObject() {
+    void SpawnRandomObject(float speedFactor) {
         // calculate spawn size
         float spawnSizeX = spawnStart.position.x - spawnEnd.position.x;
 
@@ -84,13 +115,14 @@ public class Spawner : MonoBehaviour
         // instantiate new obj
         GameObject i = Instantiate(spawnObject, new Vector3 (pos.x, pos.y, transform.position.z), Quaternion.identity);
 
-        // TODO: check if offline or online
         // set text to random text in wordlist
-        i.GetComponent<Word>().SetText(WordList.GetRandomWord("wordlist10000"));
+        Word w = i.GetComponent<Word>();
+        w.SetText(WordList.GetRandomWord("wordlist10000"));
+        w.velocityY *= speedFactor;
     }
 
     // spawn multiplayer
-    void SpawnRandomObjectMultiplayer() {
+    void SpawnObjectMultiplayer() {
         // calculate spawn size
         float spawnSizeX = spawnStart.position.x - spawnEnd.position.x;
 
@@ -106,12 +138,14 @@ public class Spawner : MonoBehaviour
             GameObject i = Instantiate(spawnObject, new Vector3 (pos.x, pos.y, transform.position.z), Quaternion.identity);         
 
             // set object to have the top value from the queue
-            i.GetComponent<Word>().SetText(wordQueue.Dequeue());
+            Word w = i.GetComponent<Word>();
+            w.SetText(wordQueue.Dequeue());
+            w.velocityY *= speedFactorMultiplayer;
         }
     }
 
     // spawn net centric
-    void SpawnRandomObjectNetCentric() {
+    void SpawnObjectNetcentric(float speedFactor) {
         // calculate spawn size
         float spawnSizeX = spawnStart.position.x - spawnEnd.position.x;
 
@@ -124,17 +158,18 @@ public class Spawner : MonoBehaviour
         // instantiate new obj
         GameObject i = Instantiate(spawnObject, new Vector3 (pos.x, pos.y, transform.position.z), Quaternion.identity);
 
-        // TODO: check if offline or online
         // set text to random text in wordlist
-        i.GetComponent<Word>().SetText(GetRandomNetCentric());
+        Word w = i.GetComponent<Word>();
+        w.SetText(GetRandomNetcentric());
+        w.velocityY *= speedFactor;
     }
 
-    (string shown, string real) GetRandomNetCentric() {
-        int index = Random.Range(0, netCentricList.Length);
-        return netCentricList[index];
+    (string shown, string real) GetRandomNetcentric() {
+        int index = Random.Range(0, netcentricList.Length);
+        return netcentricList[index];
     }
 
-    (string shown, string real)[] netCentricList = {
+    (string shown, string real)[] netcentricList = {
         ("ISP","internet service provider"),
         ("IXP","internet exchange point"),
         ("RFC","request for comments"),

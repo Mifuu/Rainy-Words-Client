@@ -48,11 +48,22 @@ public class InputProcess : MonoBehaviour
                 SFXManager._PlaySFX("Wrong1", gameObject);
             }
         } else {
-            if (WordManager.CheckWord(word, true)) {
-                PlayManager.AddSinglePlayerScore();
-                SFXManager._PlaySFX("Right1", gameObject);
+            if (GameManager.instance.singleModeID == 3) {
+                // netcentric mode
+                if (WordManager.CheckWordNetcentric(word, true)) {
+                    PlayManager.AddSinglePlayerScore();
+                    SFXManager._PlaySFX("Right1", gameObject);
+                } else {
+                    SFXManager._PlaySFX("Wrong1", gameObject);
+                }
             } else {
-                SFXManager._PlaySFX("Wrong1", gameObject);
+                // other single player modes
+                if (WordManager.CheckWord(word, true)) {
+                    PlayManager.AddSinglePlayerScore();
+                    SFXManager._PlaySFX("Right1", gameObject);
+                } else {
+                    SFXManager._PlaySFX("Wrong1", gameObject);
+                }
             }
         }
 
@@ -72,7 +83,11 @@ public class InputProcess : MonoBehaviour
     //----------------------Events-----------------------
     // on every key input changed in input field
     public void OnType() {
-        WordManager.CheckTyping(inputField.text, onTypeColor);
+        if (GameManager.instance.singleModeID == 3) {
+            WordManager.CheckTypingNetcentric(inputField.text, onTypeColor);
+        } else {
+            WordManager.CheckTyping(inputField.text, onTypeColor);
+        }
         SFXManager._PlaySFX("Type1", gameObject);
     }
 
