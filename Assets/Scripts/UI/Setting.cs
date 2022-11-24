@@ -48,6 +48,7 @@ public class Setting : MonoBehaviour
             if (!volumeProfile.TryGet(out vignet)) throw new System.NullReferenceException(nameof(vignet));
             if (!volumeProfile.TryGet(out bloom)) throw new System.NullReferenceException(nameof(bloom));
         }
+        vfxOn = chrAbe.active;
 
         // if not in menu scene
         if (GameManager.instance != null && !GameManager.instance.InMenuScene()) {
