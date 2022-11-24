@@ -74,6 +74,7 @@ public class InputProcess : MonoBehaviour
     public void OnType() {
         WordManager.CheckTyping(inputField.text, onTypeColor);
         SFXManager._PlaySFX("Type1", gameObject);
+        Debug.Log(inputField.text);
     }
 
     public void OnDeselect() {

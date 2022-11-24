@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
                 ConnectionManager.DeliverMsg("{\"readyToPlay\":[" + $"{Client.instance.myId},{multiModeOtherId}" + "]}");
             } else {
                 // start single
-                playManager.SetupSingleplayer(7);
+                playManager.SetupSingleplayer(3);
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
             }
         }

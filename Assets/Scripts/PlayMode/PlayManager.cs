@@ -157,8 +157,7 @@ public class PlayManager : MonoBehaviour
         Debug.Log("Player 1 score: " + p1Score);        
         Debug.Log("Player 2 score: " + p2Score);
 
-        // please remove the "!" in the if statement once bug fix is complete
-        if(!PlayManager.instance.isMultiplayer) {
+        if(PlayManager.instance.isMultiplayer) {
             PanelManager.StaticNext("Conclusion Panel");
             PlayManager.instance.p1ScoreEndgame.text = p1Name + " " + p1Score;
             PlayManager.instance.p2ScoreEndgame.text = p2Name + " " + p2Score;
