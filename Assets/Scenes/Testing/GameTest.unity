@@ -1447,6 +1447,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1908050425180966711, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1908050426654738262, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2115,10 +2119,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: Next
-        m_Mode: 5
+      - m_Target: {fileID: 1448515773}
+        m_TargetAssemblyTypeName: PlayManager, Assembly-CSharp
+        m_MethodName: ButtonToMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2858,9 +2862,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1448515772}
         m_TargetAssemblyTypeName: PanelManager, Assembly-CSharp
-        m_MethodName: Next
+        m_MethodName: 
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3499,7 +3503,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1448515773}
         m_TargetAssemblyTypeName: PlayManager, Assembly-CSharp
-        m_MethodName: ButtonRestart
+        m_MethodName: ButtonRestartSingle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3578,7 +3582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4206,7 +4210,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -180.5506, y: -69.671486, z: 16.890068, w: 0}
+  m_margin: {x: -300.8431, y: -69.671486, z: -101.462265, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4656,9 +4660,12 @@ MonoBehaviour:
   p1Container: {fileID: 439377336}
   p1NameText: {fileID: 134687056}
   p1ScoreText: {fileID: 1806435509}
+  p1ScoreEndgame: {fileID: 99552894}
+  p1ScoreEndgameSingle: {fileID: 1283981158}
   p2Container: {fileID: 737257449}
   p2NameText: {fileID: 5703944}
   p2ScoreText: {fileID: 1163701680}
+  p2ScoreEndgame: {fileID: 1975963371}
   inputProcess: {fileID: 181224358}
   spawner: {fileID: 1448515776}
   wordManager: {fileID: 1448515775}

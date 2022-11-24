@@ -16,9 +16,12 @@ public class PlayManager : MonoBehaviour
     public GameObject p1Container;
     public TMP_Text p1NameText;
     public TMP_Text p1ScoreText;
+    public TMP_Text p1ScoreEndgame;
+    public TMP_Text p1ScoreEndgameSingle;
     public GameObject p2Container;
     public TMP_Text p2NameText;
     public TMP_Text p2ScoreText;
+    public TMP_Text p2ScoreEndgame;
     public InputProcess inputProcess;
     public Spawner spawner;
     public WordManager wordManager;
@@ -62,6 +65,10 @@ public class PlayManager : MonoBehaviour
     }
     //----------------------Functions-----------------------
     
+    public void ButtonRestartSingle() {
+        GameManager.instance.ChangeSceneSinglePlayer();
+    }
+
     public void ButtonRestart() {
         GameManager.instance.ChangeSceneSinglePlayer();
     }
@@ -147,8 +154,19 @@ public class PlayManager : MonoBehaviour
         // Time.timeScale = 0;
 
         Debug.Log("PlayManager: EndGame()");
-        // GameManager.instance.ChangeSceneMenu("Single P Conclusion Panel");
-        PanelManager.StaticNext("Single P Conclusion Panel");
+        Debug.Log("Player 1 score: " + p1Score);        
+        Debug.Log("Player 2 score: " + p2Score);
+
+        // please remove the "!" in the if statement once bug fix is complete
+        if(!PlayManager.instance.isMultiplayer) {
+            PanelManager.StaticNext("Conclusion Panel");
+            PlayManager.instance.p1ScoreEndgame.text = p1Name + " " + p1Score;
+            PlayManager.instance.p2ScoreEndgame.text = p2Name + " " + p2Score;
+                 
+        } else {
+            PanelManager.StaticNext("Single P Conclusion Panel");
+            PlayManager.instance.p1ScoreEndgameSingle.text = "your score: " + p1Score;
+        }
     }
 
     public static void AddSinglePlayerScore() {
