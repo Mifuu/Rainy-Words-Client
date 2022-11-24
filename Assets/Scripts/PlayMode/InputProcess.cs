@@ -41,7 +41,7 @@ public class InputProcess : MonoBehaviour
 
         if (GameManager.nextSceneMode == GameManager.NextSceneMode.Multi) {
             // calling deliverMsg to send message in JSON format when the typed word matches
-            if (WordManager.CheckWord(word, false)) {
+            if (WordManager.CheckWord(word, true)) {
                 ConnectionManager.DeliverMsg("playerTyped", word);
                 SFXManager._PlaySFX("Right1", gameObject);
             } else {
