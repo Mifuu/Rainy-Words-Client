@@ -3143,7 +3143,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -497.99994, y: 175.21799}
+  m_AnchoredPosition: {x: -497.99994, y: 175.22}
   m_SizeDelta: {x: -1016.1714, y: -959.8942}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1908050426161757042
@@ -4649,7 +4649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ip: 127.0.0.1
   port: 6969
-  myId: 0
+  myId: 1
 --- !u!114 &1908050426654738256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4753,12 +4753,18 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Right1
     clip: {fileID: 8300000, guid: ed5aa804ef4584c45b0c700a428bf53d, type: 3}
-    volume: 0.5
+    volume: 0.6
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Wrong1
     clip: {fileID: 8300000, guid: c6b060b17af31499fb3d245d355b843a, type: 3}
+    volume: 0.37
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Type1
+    clip: {fileID: 8300000, guid: bf8087f17f3264a25b7bc3538aff3f8f, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
@@ -5186,8 +5192,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -5.1246}
-  m_SizeDelta: {x: 863.60876, y: 41.684906}
+  m_AnchoredPosition: {x: -360.05963, y: -5.1246}
+  m_SizeDelta: {x: 143.4895, y: 41.6849}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2989345259745347524
 CanvasRenderer:
@@ -5505,8 +5511,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1.2051}
-  m_SizeDelta: {x: 863.60876, y: 41.684906}
+  m_AnchoredPosition: {x: -360.05963, y: -1.2051}
+  m_SizeDelta: {x: 143.4895, y: 41.6849}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &149999382450090096
 CanvasRenderer:
