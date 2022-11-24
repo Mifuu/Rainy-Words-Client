@@ -7,6 +7,7 @@ using TMPro;
 public class PlayerListItem : MonoBehaviour
 {
     public int id = 0;
+    public bool isBusy = false;
     new public string name = "";
     public enum State{Busy, Match, Confirm, Wait, Retain}
     public State state = State.Match;
@@ -19,7 +20,7 @@ public class PlayerListItem : MonoBehaviour
     [SerializeField] private Button confirmButton;
 
     void Start() {
-        SetState(State.Match);
+
     }
 
     public void SetName(string name) {
@@ -29,6 +30,16 @@ public class PlayerListItem : MonoBehaviour
 
     public void SetID(int id) {
         this.id = id;
+    }
+
+    public void SetBusy(bool isBusy) {
+        if (!this.isBusy && isBusy) {
+            SetState(State.Busy);
+            this.isBusy = true;
+        } else if (this.isBusy && !isBusy) {
+            SetState(State.Match);
+            this.isBusy = false;
+        }
     }
 
     /// <summary> set state and act accordingly </summary>
@@ -65,10 +76,19 @@ public class PlayerListItem : MonoBehaviour
     }
 
     public void ButtonMatch() {
-        // TODO: send match request according to protocol
+        // send match request according to protocol
+        if (Client.instance == null) return;
+        int myId = Client.instance.myId;
+        // ConnectionManager.DeliverMsg("matchRequest", $"[{myId},{id}]");
+        ConnectionManager.DeliverMsg("{" + $"\"matchRequest\":[{myId},{id}]" + "}");
+        SetState(State.Wait);
     }
 
     public void ButtonConfirm() {
-        // TODO: send match accept/request according to protocol
+        // send match accept/request according to protocol
+        if (Client.instance == null) return;
+        int myId = Client.instance.myId;
+        ConnectionManager.DeliverMsg("{" + $"\"matchRequest\":[{myId},{id}]" + "}");
+        SetState(State.Retain);
     }
 }

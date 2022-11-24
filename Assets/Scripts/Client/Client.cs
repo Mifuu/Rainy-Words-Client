@@ -89,7 +89,9 @@ public class Client : MonoBehaviour
             Debug.Log("Check 2.1");
             stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
             Debug.Log("Check 2.2");
-            ConnectionManager.MenuSendFirstMessage();
+            ConnectionManager.SendFirstConnectionMessage();
+            if (GameManager.instance != null) GameManager.instance.SetIsConnected(true);
+            FindObjectOfType<ConnectionUIManager>().idTMP.text = "" + Client.instance.myId;
         }
 
         public void SendData(Packet _packet)
@@ -104,7 +106,8 @@ public class Client : MonoBehaviour
             }
             catch (Exception _ex)
             {
-                Debug.Log($"Error sending data to server via TCP: {_ex}");
+                // Debug.Log($"Error sending data to server via TCP: {_ex}");
+                Debug.Log("Sending MSG Without Server!");
             }
         }
 
@@ -222,6 +225,7 @@ public class Client : MonoBehaviour
     {
         if (isConnected) 
         {
+            if (GameManager.instance != null) GameManager.instance.SetIsConnected(false);
             isConnected = false;
             tcp.socket.Close();
 

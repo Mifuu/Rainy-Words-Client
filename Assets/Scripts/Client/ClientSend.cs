@@ -12,7 +12,7 @@ public class ClientSend : MonoBehaviour
 
     public static void SendString(string msg)
     {
-        Debug.Log("sent: " + msg);
+        Debug.Log("Sent: " + msg);
         using (Packet _packet = new Packet())
         {
             _packet.Write(msg);

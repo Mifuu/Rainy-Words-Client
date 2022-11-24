@@ -12,7 +12,8 @@ public class Spawner : MonoBehaviour
 
     // variables
     public bool isOn = true;
-    public Vector2 spawnSize;
+    public RectTransform spawnStart;
+    public RectTransform spawnEnd;
     public GameObject spawnObject;
     public float baseInterval = 1;
 
@@ -21,6 +22,10 @@ public class Spawner : MonoBehaviour
         // singleton
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
+    }
+
+    void Start() {
+        // StartCoroutine(SinglePlayerSpawnerCR());
     }
 
     public void StartSinglePlayerSpawnerCR() {
@@ -33,32 +38,51 @@ public class Spawner : MonoBehaviour
     }
 
     IEnumerator SinglePlayerSpawnerCR() {
+        float timer = baseInterval;
         while (isOn && spawnObject != null) {
-            yield return new WaitForSeconds(baseInterval);
-            SpawnRandomObject();
+            if (!GameManager.isPaused) {
+                yield return 0;
+                timer -= Time.deltaTime;
+                if (timer < 0) {
+                    SpawnRandomObject();
+                    timer = baseInterval;
+                }
+            } else {
+                yield return 0;
+            }
         }
         
     }
 
     IEnumerator MultiPlayerSpawnerCR() {
+        float timer = baseInterval;
         while (isOn && spawnObject != null) {
-            yield return new WaitForSeconds(baseInterval);
-            SpawnRandomObject("e");
+            if (!GameManager.isPaused) {
+                yield return 0;
+                timer -= Time.deltaTime;
+                if (timer < 0) {
+                    SpawnRandomObject("e");
+                    timer = baseInterval;
+                }
+            } else {
+                yield return 0;
+            }
         }
-        
     }
 
     // spawn word with random text
     void SpawnRandomObject() {
+        // calculate spawn size
+        float spawnSizeX = spawnStart.position.x - spawnEnd.position.x;
+
         // randomize spawn position
         Vector2 pos = new Vector2();
-        pos.x = transform.position.x - spawnSize.x / 2;
-        pos.y = transform.position.y - spawnSize.y / 2;
-        pos.x += Random.value * spawnSize.x;
-        pos.y += Random.value * spawnSize.y;
+        pos.x = transform.position.x - spawnSizeX / 2;
+        pos.y = spawnStart.position.y;
+        pos.x += Random.value * spawnSizeX;
 
         // instantiate new obj
-        GameObject i = Instantiate(spawnObject, pos, Quaternion.identity);
+        GameObject i = Instantiate(spawnObject, new Vector3 (pos.x, pos.y, transform.position.z), Quaternion.identity);
 
         // TODO: check if offline or online
         // set text to random text in wordlist
@@ -67,27 +91,23 @@ public class Spawner : MonoBehaviour
 
     // spawn word from the list
     void SpawnRandomObject(string e) {
+        // calculate spawn size
+        float spawnSizeX = spawnStart.position.x - spawnEnd.position.x;
+
         // randomize spawn position
         Vector2 pos = new Vector2();
-        pos.x = transform.position.x - spawnSize.x / 2;
-        pos.y = transform.position.y - spawnSize.y / 2;
-        pos.x += Random.value * spawnSize.x;
-        pos.y += Random.value * spawnSize.y;
+        pos.x = transform.position.x - spawnSizeX / 2;
+        pos.y = spawnStart.position.y;
+        pos.x += Random.value * spawnSizeX;
 
         // check if the queue is not empty
         if(wordQueue.Count != 0) {
             // instantiate new obj
-            GameObject i = Instantiate(spawnObject, pos, Quaternion.identity);         
+            GameObject i = Instantiate(spawnObject, new Vector3 (pos.x, pos.y, transform.position.z), Quaternion.identity);         
 
             // set object to have the top value from the queue
             i.GetComponent<Word>().SetText(wordQueue.Dequeue());
         }
  
-    }
-
-    // Draw spawning area so it is easy to debug
-    void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, spawnSize);
     }
 }

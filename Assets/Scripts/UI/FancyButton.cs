@@ -17,6 +17,9 @@ public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     RectTransform rect;
     bool interactableDelay;
 
+    [Header("Using icon instead?")]
+    public Image icon;
+
     [Header("Color Event")]
     public Color normalColor = Color.white;
     public Color highlightedColor = new Color(0,0,0,1);
@@ -36,7 +39,11 @@ public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void Start ()
     {
         txt = GetComponentInChildren<TMP_Text>();
-        baseColor = txt.color;
+        if (icon == null) {
+            baseColor = txt.color;
+        } else {
+            baseColor = icon.color;
+        }
         btn = gameObject.GetComponent<Button> ();
         interactableDelay = btn.interactable;
 
@@ -61,11 +68,14 @@ public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             if (btn.interactable) {
                 if (EventSystem.current.currentSelectedGameObject == gameObject) {
                     txt.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
+                    if (icon != null) icon.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
                 } else {
                     txt.color = baseColor * normalColor * btn.colors.colorMultiplier;
+                    if (icon != null) icon.color = baseColor * normalColor * btn.colors.colorMultiplier;
                 }
             } else {
                 txt.color = baseColor * disabledColor * btn.colors.colorMultiplier;
+                if (icon != null) icon.color = baseColor * disabledColor * btn.colors.colorMultiplier;
             }
         }
         interactableDelay = btn.interactable;
@@ -75,29 +85,39 @@ public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (btn.interactable) {
             txt.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
+            if (icon != null) icon.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
             Tween(enterScaleTween);
         } else {
             txt.color = baseColor * disabledColor * btn.colors.colorMultiplier;
+            if (icon != null) icon.color = baseColor * disabledColor * btn.colors.colorMultiplier;
         }
+
+        SFXManager._PlaySFX("Click2", gameObject);
     }
  
     public void OnPointerDown (PointerEventData eventData)
     {
         if (btn.interactable) {
             txt.color = baseColor * pressedColor * btn.colors.colorMultiplier;
+            if (icon != null) icon.color = baseColor * pressedColor * btn.colors.colorMultiplier;
             Tween(downScaleTween);
         } else {
             txt.color = baseColor * disabledColor * btn.colors.colorMultiplier;
+            if (icon != null) icon.color = baseColor * disabledColor * btn.colors.colorMultiplier;
         }
+
+        SFXManager._PlaySFX("Click1", gameObject);
     }
  
     public void OnPointerUp (PointerEventData eventData)
     {
         if (btn.interactable) {
             txt.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
+            if (icon != null) icon.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
             Tween(upScaleTween);
         } else {
             txt.color = baseColor * disabledColor * btn.colors.colorMultiplier;
+            if (icon != null) icon.color = baseColor * disabledColor * btn.colors.colorMultiplier;
         }
     }
  
@@ -106,8 +126,10 @@ public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (btn.interactable) {
             if (EventSystem.current.currentSelectedGameObject == gameObject) {
                 txt.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
+                if (icon != null) icon.color = baseColor * highlightedColor * btn.colors.colorMultiplier;
             } else {
                 txt.color = baseColor * normalColor * btn.colors.colorMultiplier;
+                if (icon != null) icon.color = baseColor * normalColor * btn.colors.colorMultiplier;
             }
             Tween(exitScaleTween);
         } else {
@@ -129,9 +151,11 @@ public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void OnEnabled() {
         txt.color = baseColor * normalColor * btn.colors.colorMultiplier;
+        if (icon != null) icon.color = baseColor * normalColor * btn.colors.colorMultiplier;
     }
 
     void OnDisabled() {
         txt.color = baseColor * normalColor * btn.colors.colorMultiplier;
+        if (icon != null) icon.color = baseColor * normalColor * btn.colors.colorMultiplier;
     }
 }
