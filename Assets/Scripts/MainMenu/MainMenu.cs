@@ -34,9 +34,11 @@ public class MainMenu : MonoBehaviour
     }
 
     public string GetInputName() {
+        /*
         string output = "";
         output += nameInputField.text.Equals("");
-        return output;
+        */
+        return nameInputField.text;
     }
 
     public void SetPLISelf(string name) {

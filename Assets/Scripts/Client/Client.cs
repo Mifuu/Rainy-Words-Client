@@ -70,6 +70,11 @@ public class Client : MonoBehaviour
             Debug.Log("Check 1");
             socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
             Debug.Log("Check 1.1");
+            /*
+            ConnectionManager.SendFirstConnectionMessage();
+            if (GameManager.instance != null) GameManager.instance.SetIsConnected(true);
+            FindObjectOfType<ConnectionUIManager>().idTMP.text = "" + Client.instance.myId;
+            */
         }
 
         private void ConnectCallback(IAsyncResult _result)
@@ -89,9 +94,11 @@ public class Client : MonoBehaviour
             Debug.Log("Check 2.1");
             stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
             Debug.Log("Check 2.2");
+            
             ConnectionManager.SendFirstConnectionMessage();
             if (GameManager.instance != null) GameManager.instance.SetIsConnected(true);
             FindObjectOfType<ConnectionUIManager>().idTMP.text = "" + Client.instance.myId;
+            
         }
 
         public void SendData(Packet _packet)

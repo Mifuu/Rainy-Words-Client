@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        Debug.Log("GameManager.OnSceneLoaded()");
+        Debug.Log("GameManager.OnSceneLoaded(), nextSceneMode: " + nextSceneMode.ToString());
         string sceneName = scene.name;
         if (sceneName.Equals(menuSceneName)) {
             PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
@@ -61,6 +61,9 @@ public class GameManager : MonoBehaviour
                 // start multi
                 playManager.SetupMultiplayer(multiModeName, multiModeOtherName, 300);
                 PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
+
+                // tell server player ready to play
+                ConnectionManager.DeliverMsg("{\"readyToPlay\":[" + $"{Client.instance.myId},{multiModeOtherId}" + "]}");
             } else {
                 // start single
                 playManager.SetupSingleplayer(7);

@@ -10,6 +10,7 @@ public class MusicManager : MonoBehaviour
     public static MusicManager instance;
 
     static public float musicVolume = 1;
+    static float musicVolumeFactor = .20f;
 
     public Sound[] themes;
 
@@ -59,7 +60,7 @@ public class MusicManager : MonoBehaviour
     public void SetMusicVolume(float vol) {
         musicVolume = vol;
         foreach (Sound theme in themes) {
-            theme.source.volume = theme.volume * musicVolume;
+            theme.source.volume = theme.volume * musicVolume * musicVolumeFactor;
         }
     }
 

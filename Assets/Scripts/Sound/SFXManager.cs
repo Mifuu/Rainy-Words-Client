@@ -10,6 +10,7 @@ public class SFXManager : MonoBehaviour
     public static SFXManager instance;
 
     static public float sfxVolume = 1;
+    static float sfxVolumeFactor = .15f;
     public Sound[] sounds;
     private List<AudioSource> audioSources; //keep track for setting volume
 
@@ -44,7 +45,7 @@ public class SFXManager : MonoBehaviour
             source.spatialBlend = .4f;
         }
 
-        if (source.enabled) source.PlayOneShot(s.clip, s.volume * sfxVolume);
+        if (source.enabled) source.PlayOneShot(s.clip, s.volume * sfxVolume * sfxVolumeFactor);
     }
 
     public static void _PlaySFX(string name, GameObject target) {
@@ -62,7 +63,7 @@ public class SFXManager : MonoBehaviour
                 audioSources.Remove(a);
                 continue;
             } else {
-                a.volume = sfxVolume;
+                a.volume = sfxVolume * sfxVolumeFactor;
             }
         }
     }
