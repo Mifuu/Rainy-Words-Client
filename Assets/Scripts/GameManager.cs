@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             } else {
                 if (singleModeID == 3) {
                     // start netcentric mode
-                    playManager.SetupSingleplayer(240);
+                    playManager.SetupSingleplayer(240); // actual is 240
                     // playManager.SetupSingleplayer(10);
                     PanelManager.PlayTransition(false, PanelManager.Panel.Transition.FadeDrop);
                 } else {
