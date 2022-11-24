@@ -88,8 +88,7 @@ public class InputProcess : MonoBehaviour
         } else {
             WordManager.CheckTyping(inputField.text, onTypeColor);
         }
-        SFXManager._PlaySFX("Type1", gameObject);
-        Debug.Log(inputField.text);
+        SFXManager._PlaySFX("Type1", gameObject);        
     }
 
     public void OnDeselect() {
