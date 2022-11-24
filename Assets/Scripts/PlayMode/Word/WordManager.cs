@@ -107,11 +107,28 @@ public class WordManager : MonoBehaviour
 
             string text = w.text.Substring(0, word.Length);
             if (text.Equals(word)) {
-                w.tmp.text = "<color=#" + Word.GetHex(col) + ">" + text + "<color=#" + Word.GetHex(w.tmp.color) + ">" + w.text.Substring(word.Length, w.text.Length - word.Length);
+                string[] textWord = w.text.Split(' ');
+                
+                int matchWordCount = 0;
+                int currentCharNum = 0;
+                foreach (string _w in textWord) {
+                    currentCharNum += _w.Length;
+                    if (text.Length >= currentCharNum) {
+                        matchWordCount++;
+                        currentCharNum++; // from space
+                    } else {
+                        break;
+                    }
+                }
+
+                string tmpText1 = w.nText.Substring(0, matchWordCount);
+                string tmpText2 = w.nText.Substring(matchWordCount);
+
+                w.tmp.text = "<color=#" + Word.GetHex(col) + ">" + tmpText1 + "<color=#" + Word.GetHex(w.tmp.color) + ">" + tmpText2;
                 if (w.checkTypeParticle != null) Instantiate(w.checkTypeParticle, w.transform.position, Quaternion.identity);
                 count++;
             } else {
-                w.tmp.text = w.text;
+                w.tmp.text = w.nText;
             }
         }
 
