@@ -4751,6 +4751,18 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Right1
+    clip: {fileID: 8300000, guid: ed5aa804ef4584c45b0c700a428bf53d, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Wrong1
+    clip: {fileID: 8300000, guid: c6b060b17af31499fb3d245d355b843a, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &1908050426680314387
 GameObject:
   m_ObjectHideFlags: 0

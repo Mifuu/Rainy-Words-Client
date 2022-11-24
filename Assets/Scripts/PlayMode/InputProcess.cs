@@ -41,10 +41,22 @@ public class InputProcess : MonoBehaviour
 
         if (GameManager.nextSceneMode == GameManager.NextSceneMode.Multi) {
             // calling deliverMsg to send message in JSON format when the typed word matches
-            if (WordManager.CheckWord(word, false)) ConnectionManager.DeliverMsg("playerTyped", word);
+            if (WordManager.CheckWord(word, false)) {
+                ConnectionManager.DeliverMsg("playerTyped", word);
+                SFXManager._PlaySFX("Right1", gameObject);
+            } else {
+                SFXManager._PlaySFX("Wrong1", gameObject);
+            }
         } else {
-            if (WordManager.CheckWord(word, true)) PlayManager.AddSinglePlayerScore();
+            if (WordManager.CheckWord(word, true)) {
+                PlayManager.AddSinglePlayerScore();
+                SFXManager._PlaySFX("Right1", gameObject);
+            } else {
+                SFXManager._PlaySFX("Wrong1", gameObject);
+            }
         }
+
+        WordManager.CheckTyping("I am very sleepy", onTypeColor);
 
     }
 
@@ -61,6 +73,7 @@ public class InputProcess : MonoBehaviour
     // on every key input changed in input field
     public void OnType() {
         WordManager.CheckTyping(inputField.text, onTypeColor);
+        SFXManager._PlaySFX("Type1", gameObject);
     }
 
     public void OnDeselect() {

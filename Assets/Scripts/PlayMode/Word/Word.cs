@@ -14,8 +14,15 @@ public class Word : MonoBehaviour
     [Header("Movement")]
     public float velocityY = -20;
 
+    [Header("Particle System")]
+    public GameObject checkTypeParticle;
+    public GameObject checkWordParticle;
+
     // references
     public TMP_Text tmp;
+
+    // net centric mode
+    public string nText;
     
     //----------------------Functions-----------------------
     void Awake() {
@@ -46,6 +53,12 @@ public class Word : MonoBehaviour
     public void SetText(string _text) {
         text = _text;
         tmp.text = _text;
+    }
+
+    public void SetText((string shown, string real) val) {
+        this.text = val.real;
+        this.tmp.text = val.shown;
+        this.nText = val.shown;
     }
 
     //----------------------Utility-----------------------

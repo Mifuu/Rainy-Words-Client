@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: default
   velocityY: -0.275
+  checkTypeParticle: {fileID: 8276211006580368391, guid: 7f9e06e5299af4680a2d2703c46a87bd, type: 3}
+  checkWordParticle: {fileID: 1884796877594545404, guid: e7ad762f9909c4a799067aa649dcce59, type: 3}
   tmp: {fileID: 2312707371215985566}
 --- !u!1 &5198812244067306205
 GameObject:

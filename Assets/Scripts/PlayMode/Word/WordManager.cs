@@ -45,6 +45,7 @@ public class WordManager : MonoBehaviour
             if (w.text.Equals(word)) {
                 if(removeMatchingWord) w.Remove();
                 count++;
+                if (w.checkWordParticle != null) Instantiate(w.checkWordParticle, w.transform.position, Quaternion.identity);
                 // GameManager.score++;
             }
         }
@@ -54,7 +55,10 @@ public class WordManager : MonoBehaviour
     }
 
     // change color of typed word that patially match what is being type
-    public static void CheckTyping(string word, Color col) {
+    public static bool CheckTyping(string word, Color col) {
+        if (word.Equals("")) return false;
+
+        int count = 0;
         foreach (Word w in words) {
             if (word.Length > w.text.Length) {
                 w.tmp.text = w.text;
@@ -64,9 +68,54 @@ public class WordManager : MonoBehaviour
             string text = w.text.Substring(0, word.Length);
             if (text.Equals(word)) {
                 w.tmp.text = "<color=#" + Word.GetHex(col) + ">" + text + "<color=#" + Word.GetHex(w.tmp.color) + ">" + w.text.Substring(word.Length, w.text.Length - word.Length);
+                if (w.checkTypeParticle != null) Instantiate(w.checkTypeParticle, w.transform.position, Quaternion.identity);
+                count++;
             } else {
                 w.tmp.text = w.text;
             }
         }
+
+        if (count > 0) return true;
+        return false;
+    }
+
+    public static bool CheckWordNetCentric(string word, bool removeMatchingWord) {
+        int count = 0;
+
+        foreach (Word w in words) {
+            if (w.text.Equals(word)) {
+                if(removeMatchingWord) w.Remove();
+                count++;
+                if (w.checkWordParticle != null) Instantiate(w.checkWordParticle, w.transform.position, Quaternion.identity);
+                // GameManager.score++;
+            }
+        }
+
+        if (count > 0) return true;
+        return false;
+    }
+
+    public static bool CheckTypingNetCentric(string word, Color col) {
+        if (word.Equals("")) return false;
+
+        int count = 0;
+        foreach (Word w in words) {
+            if (word.Length > w.text.Length) {
+                w.tmp.text = w.nText;
+                continue;
+            }
+
+            string text = w.text.Substring(0, word.Length);
+            if (text.Equals(word)) {
+                w.tmp.text = "<color=#" + Word.GetHex(col) + ">" + text + "<color=#" + Word.GetHex(w.tmp.color) + ">" + w.text.Substring(word.Length, w.text.Length - word.Length);
+                if (w.checkTypeParticle != null) Instantiate(w.checkTypeParticle, w.transform.position, Quaternion.identity);
+                count++;
+            } else {
+                w.tmp.text = w.text;
+            }
+        }
+
+        if (count > 0) return true;
+        return false;
     }
 }
