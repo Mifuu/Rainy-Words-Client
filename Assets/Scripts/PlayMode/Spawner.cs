@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
     public RectTransform spawnEnd;
     public GameObject spawnObject;
     public float baseInterval = 1;
-    public float baseIntervalMultiplayer = 0.5f;
+    public float baseIntervalMultiplayer = 1f;
     public float speedFactorMultiplayer = 1.6f;
 
     //----------------------Functions-----------------------
@@ -28,6 +28,7 @@ public class Spawner : MonoBehaviour
 
     void Start() {
         // StartCoroutine(SinglePlayerSpawnerCR());
+        wordQueue.Clear();
     }
 
     public void StartSinglePlayerSpawner(int modeID) {
@@ -42,7 +43,7 @@ public class Spawner : MonoBehaviour
                 StartCoroutine(SinglePlayerSpawnerCR(baseInterval * 0.9f, 1));
                 break;
             case 3:
-                StartCoroutine(NetcentricSpawnerCR(baseInterval * 2.5f, 0.5f));
+                StartCoroutine(NetcentricSpawnerCR(baseInterval * 1.5f, 0.5f));
                 break;
         }
     }

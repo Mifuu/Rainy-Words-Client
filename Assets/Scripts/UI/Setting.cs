@@ -80,6 +80,7 @@ public class Setting : MonoBehaviour
     public void ButtonMenu() {
         ConnectionManager.DeliverMsg("removeClient", Client.instance.myId);
         GameManager.instance.ChangeSceneMenu();
+        Client.instance.Disconnect();
     }
 
     public void ButtonMusicPlus() {

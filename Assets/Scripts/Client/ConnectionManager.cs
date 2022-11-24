@@ -130,8 +130,15 @@ public class ConnectionManager
             Debug.Log(s);
 
             // tell PlayManager
+            /*
             if (PlayManager.instance != null) {
                 PlayManager.instance.UpdateScores(msgObj.scoreList[0].id, msgObj.scoreList[0].score, msgObj.scoreList[1].id, msgObj.scoreList[1].score);
+            }
+            */
+            for (int i = 0; i < msgObj.scoreList.Length; i++) {
+                if (PlayManager.instance != null) {
+                    PlayManager.instance.UpdateScore(msgObj.scoreList[i].id, msgObj.scoreList[i].score);
+                }
             }
         }
         if (msgObj.matchStart.Length > 0) {
@@ -154,6 +161,9 @@ public class ConnectionManager
 
             // tell PlayerList
             PlayerList.GotMatchRequest(msgObj.matchRequest[0]);
+        }
+        if (msgObj.resetGame > 0) {
+            GameManager.instance.ChangeSceneMultiPlayer();
         }
 
     }
@@ -213,6 +223,7 @@ public class ConnectionManager
         public int assignID = int.MaxValue;
         public int[] matchStart = {};
         public int[] matchRequest = {};
+        public int resetGame = 0;
         public string catchMsg = ""; // case there's an error in parsing to json, it is not a json format
 
         // create ReceiveMsgInfo from JSON

@@ -70,6 +70,8 @@ public class MainMenu : MonoBehaviour
 
     public void ButtonRemoveClient() {
         ConnectionManager.DeliverMsg("removeClient", Client.instance.myId);
+        Client.instance.Disconnect();
+ 
     }
 
     // specific input per panel

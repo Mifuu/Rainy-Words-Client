@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
     public int singleModeID = 0;
     string multiModeOtherName = "";
     string multiModeName = "";
-    int multiModeMyId = 0;
-    int multiModeOtherId = 0;
+    public int multiModeMyId = 0;
+    public int multiModeOtherId = 0;
     bool receivedAssignID = false;
     bool receivedPlayerList = false;
 
@@ -187,7 +187,7 @@ public class GameManager : MonoBehaviour
 
     public void Pause(bool i) {
         if (nextSceneMode != NextSceneMode.Single) isPaused = false;
-        isPaused = i;
+        else isPaused = i;
     }
 
     //-----------------Event---------------------

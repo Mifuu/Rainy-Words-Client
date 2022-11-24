@@ -76,6 +76,7 @@ public class PlayManager : MonoBehaviour
     public void ButtonToMenu() {
         GameManager.instance.ChangeSceneMenu();
         ConnectionManager.DeliverMsg("removeClient", Client.instance.myId);
+        Client.instance.Disconnect();
     }
 
     public void SetupSingleplayer(float timer) {
@@ -138,6 +139,13 @@ public class PlayManager : MonoBehaviour
     public void UpdateScores(int p1Score, int p2Score) {
         PlayManager.p1Score = p1Score;
         PlayManager.p2Score = p2Score;
+
+        UpdateScoreText();
+    }
+
+    public void UpdateScore(int id, int score) {
+        if (id == GameManager.instance.multiModeMyId) p1Score = score;
+        if (id == GameManager.instance.multiModeOtherId) p2Score = score;
 
         UpdateScoreText();
     }
