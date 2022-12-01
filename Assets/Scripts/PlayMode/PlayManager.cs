@@ -170,8 +170,13 @@ public class PlayManager : MonoBehaviour
         // please remove the "!" in the if statement once bug fix is complete
         if(PlayManager.instance.isMultiplayer) {
             PanelManager.StaticNext("Conclusion Panel");
-            PlayManager.instance.p1ScoreEndgame.text = p1Name + " " + p1Score;
-            PlayManager.instance.p2ScoreEndgame.text = p2Name + " " + p2Score;
+            if (p1Score > p2Score) {
+                PlayManager.instance.p1ScoreEndgame.text = p1Name + " " + p1Score;
+                PlayManager.instance.p2ScoreEndgame.text = p2Name + " " + p2Score;
+            } else {
+                PlayManager.instance.p1ScoreEndgame.text = p2Name + " " + p2Score;
+                PlayManager.instance.p2ScoreEndgame.text = p1Name + " " + p1Score;
+            }
                  
         } else {
             PanelManager.StaticNext("Single P Conclusion Panel");

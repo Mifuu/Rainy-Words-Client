@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
     public RectTransform spawnEnd;
     public GameObject spawnObject;
     public float baseInterval = 1;
-    public float baseIntervalMultiplayer = 1f;
+    float baseIntervalMultiplayer = 0.9f;
     public float speedFactorMultiplayer = 1.6f;
 
     //----------------------Functions-----------------------

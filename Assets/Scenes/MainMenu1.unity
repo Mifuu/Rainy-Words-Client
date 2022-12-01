@@ -11468,6 +11468,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1908050426654738257, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
+      propertyPath: ip
+      value: 192.168.150.136
+      objectReference: {fileID: 0}
     - target: {fileID: 1908050426654738262, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
       propertyPath: m_Camera
       value: 

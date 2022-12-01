@@ -1447,10 +1447,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1908050425180966711, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1908050426654738262, guid: 94f06a8d35068478d959e85b70c938de, type: 3}
       propertyPath: m_Camera
       value: 
@@ -4716,7 +4712,6 @@ MonoBehaviour:
   spawnEnd: {fileID: 917748964}
   spawnObject: {fileID: 68290224890595196, guid: 255fd4046853d42668738fe9833ba106, type: 3}
   baseInterval: 1.5
-  baseIntervalMultiplayer: 0.5
   speedFactorMultiplayer: 1.6
 --- !u!1 &1643379038
 GameObject:
